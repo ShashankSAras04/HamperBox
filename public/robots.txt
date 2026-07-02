@@ -1,0 +1,9 @@
+# Robots.txt for HamperBox
+User-agent: *
+Allow: /
+
+# Exclude admin pages from search indexing
+Disallow: /admin/
+Disallow: /admin/*
+
+Sitemap: https://hamperbox.com/sitemap.xml
