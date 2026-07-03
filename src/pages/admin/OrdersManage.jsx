@@ -220,7 +220,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
     html, body {
       margin: 0;
       padding: 0;
-      background: #fff;
+      background: #fff !important;
       -webkit-print-color-adjust: exact;
       font-family: 'Outfit', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
@@ -232,8 +232,8 @@ Once the payment is done, please reply to this message with a screenshot of the 
       padding: 20mm;
       box-sizing: border-box;
       position: relative;
-      background: #fff;
-      color: #1e293b;
+      background: #fff !important;
+      color: #1e293b !important;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -249,12 +249,22 @@ Once the payment is done, please reply to this message with a screenshot of the 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      border-bottom: 2px solid #8B5CF6; 
+      border-bottom: 2px solid #8B5CF6 !important; 
       padding-bottom: 15px; 
       margin-bottom: 25px; 
     }
-    .logo { font-size: 28px; font-weight: 800; color: #8B5CF6; letter-spacing: -0.05em; font-family: 'Georgia', serif; }
-    .title { font-size: 18px; font-weight: bold; color: #334155; }
+    .logo { 
+      font-size: 28px; 
+      font-weight: 800; 
+      color: #8B5CF6 !important; 
+      letter-spacing: -0.05em; 
+      font-family: 'Georgia', serif; 
+    }
+    .title { 
+      font-size: 18px; 
+      font-weight: bold; 
+      color: #334155 !important; 
+    }
     
     .details { 
       display: grid; 
@@ -264,44 +274,99 @@ Once the payment is done, please reply to this message with a screenshot of the 
     }
     .details h3 { 
       font-size: 11px; 
-      color: #94a3b8; 
+      color: #94a3b8 !important; 
       text-transform: uppercase; 
       margin-bottom: 6px; 
-      border-bottom: 1px solid #e2e8f0; 
+      border-bottom: 1px solid #e2e8f0 !important; 
       padding-bottom: 4px; 
       letter-spacing: 0.05em; 
     }
-    .details p { margin: 3px 0; font-size: 13px; color: #334155; }
+    .details p { 
+      margin: 3px 0; 
+      font-size: 13px; 
+      color: #334155 !important; 
+    }
+    .details strong {
+      color: #1e293b !important;
+    }
     
-    .table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+    .table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-bottom: 25px; 
+    }
     .table th { 
-      background: #f8fafc; 
-      border-bottom: 2px solid #cbd5e1; 
+      background: #f8fafc !important; 
+      border-bottom: 2px solid #cbd5e1 !important; 
       padding: 10px 14px; 
       font-size: 11px; 
       text-transform: uppercase; 
       text-align: left; 
       font-weight: bold; 
-      color: #475569; 
+      color: #475569 !important; 
     }
-    .table td { border-bottom: 1px solid #e2e8f0; padding: 10px 14px; font-size: 13px; color: #334155; }
+    .table td { 
+      border-bottom: 1px solid #e2e8f0 !important; 
+      padding: 10px 14px; 
+      font-size: 13px; 
+      color: #334155 !important; 
+    }
+    .table td strong {
+      color: #1e293b !important;
+    }
     
-    .total-box { float: right; width: 280px; margin-top: 5px; }
-    .total-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; color: #475569; }
-    .total-row.grand { border-top: 2px solid #8B5CF6; padding-top: 8px; font-size: 15px; font-weight: bold; color: #8B5CF6; }
+    .total-box { 
+      float: right; 
+      width: 280px; 
+      margin-top: 5px; 
+    }
+    .total-row { 
+      display: flex; 
+      justify-content: space-between; 
+      padding: 4px 0; 
+      font-size: 13px; 
+      color: #475569 !important; 
+    }
+    .total-row.grand { 
+      border-top: 2px solid #8B5CF6 !important; 
+      padding-top: 8px; 
+      font-size: 15px; 
+      font-weight: bold; 
+      color: #8B5CF6 !important; 
+    }
     
-    .badge { display: inline-block; padding: 3px 8px; border-radius: 9999px; font-size: 9px; font-weight: bold; text-transform: uppercase; }
-    .badge.paid { background: #dcfce7; color: #166534; }
-    .badge.unpaid { background: #fee2e2; color: #991b1b; }
-    .badge.cancelled { background: #fee2e2; color: #991b1b; }
+    .badge { 
+      display: inline-block; 
+      padding: 3px 8px; 
+      border-radius: 9999px; 
+      font-size: 9px; 
+      font-weight: bold; 
+      text-transform: uppercase; 
+    }
+    .badge.paid { 
+      background: #dcfce7 !important; 
+      color: #166534 !important; 
+    }
+    .badge.unpaid { 
+      background: #fee2e2 !important; 
+      color: #991b1b !important; 
+    }
+    .badge.cancelled { 
+      background: #fee2e2 !important; 
+      color: #991b1b !important; 
+    }
     
     .footer { 
       text-align: center; 
-      border-top: 1px solid #e2e8f0; 
+      border-top: 1px solid #e2e8f0 !important; 
       padding-top: 15px; 
       font-size: 11px; 
-      color: #94a3b8; 
+      color: #94a3b8 !important; 
       margin-top: auto;
+    }
+    .footer p {
+      color: #94a3b8 !important;
+      margin: 4px 0;
     }
   </style>
 </head>
