@@ -234,48 +234,68 @@ Once the payment is done, please reply to this message with a screenshot of the 
       position: relative;
       background: #fff !important;
       color: #1e293b !important;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
     }
     
     .content { 
       position: relative; 
       z-index: 1; 
-      flex-grow: 1;
     }
     
     .header { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
+      width: 100% !important;
       border-bottom: 2px solid #8B5CF6 !important; 
       padding-bottom: 15px; 
       margin-bottom: 25px; 
+      overflow: hidden !important;
     }
+    
+    .header-left {
+      float: left !important;
+      width: 50% !important;
+    }
+    
+    .header-right {
+      float: right !important;
+      width: 50% !important;
+      text-align: right !important;
+    }
+    
     .logo { 
       font-size: 28px; 
       font-weight: 800; 
       color: #8B5CF6 !important; 
       letter-spacing: -0.05em; 
       font-family: 'Georgia', serif; 
+      margin: 0 !important;
     }
     .title { 
       font-size: 18px; 
       font-weight: bold; 
       color: #334155 !important; 
+      margin: 0 !important;
     }
     
     .details { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 30px; 
+      width: 100% !important;
       margin-bottom: 25px; 
+      overflow: hidden !important;
     }
+    
+    .details-left {
+      float: left !important;
+      width: 48% !important;
+    }
+    
+    .details-right {
+      float: right !important;
+      width: 48% !important;
+    }
+    
     .details h3 { 
       font-size: 11px; 
       color: #94a3b8 !important; 
       text-transform: uppercase; 
+      margin-top: 0 !important;
       margin-bottom: 6px; 
       border-bottom: 1px solid #e2e8f0 !important; 
       padding-bottom: 4px; 
@@ -294,6 +314,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
       width: 100%; 
       border-collapse: collapse; 
       margin-bottom: 25px; 
+      clear: both !important;
     }
     .table th { 
       background: #f8fafc !important; 
@@ -319,14 +340,22 @@ Once the payment is done, please reply to this message with a screenshot of the 
       float: right; 
       width: 280px; 
       margin-top: 5px; 
+      clear: both !important;
     }
     .total-row { 
-      display: flex; 
-      justify-content: space-between; 
+      width: 100% !important;
       padding: 4px 0; 
       font-size: 13px; 
       color: #475569 !important; 
+      overflow: hidden !important;
     }
+    .total-row span.label {
+      float: left !important;
+    }
+    .total-row span.val {
+      float: right !important;
+    }
+    
     .total-row.grand { 
       border-top: 2px solid #8B5CF6 !important; 
       padding-top: 8px; 
@@ -357,12 +386,15 @@ Once the payment is done, please reply to this message with a screenshot of the 
     }
     
     .footer { 
+      position: absolute !important;
+      bottom: 20mm !important;
+      left: 20mm !important;
+      right: 20mm !important;
       text-align: center; 
       border-top: 1px solid #e2e8f0 !important; 
       padding-top: 15px; 
       font-size: 11px; 
       color: #94a3b8 !important; 
-      margin-top: auto;
     }
     .footer p {
       color: #94a3b8 !important;
@@ -374,18 +406,18 @@ Once the payment is done, please reply to this message with a screenshot of the 
   <div class="invoice-container" id="invoice-print-container">
     <div class="content">
       <div class="header">
-        <div>
+        <div class="header-left">
           <div class="logo">HampBox</div>
           <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b; font-weight: 550;">Premium Gifting Platform</p>
         </div>
-        <div style="text-align: right;">
+        <div class="header-right">
           <div class="title">OFFICIAL INVOICE</div>
           <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b;">Ref: ${orderRef}</p>
         </div>
       </div>
 
       <div class="details">
-        <div>
+        <div class="details-left">
           <h3>Order Information</h3>
           <p><strong>Order Ref:</strong> ${orderRef}</p>
           <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
@@ -400,7 +432,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
           </p>
           ${showPrice && orderUpi !== 'N/A' ? `<p><strong>UPI ID (Payment):</strong> ${orderUpi}</p>` : ''}
         </div>
-        <div>
+        <div class="details-right">
           <h3>Recipient Shipping Details</h3>
           <p><strong>Name:</strong> ${order.addresses?.recipient_name || 'N/A'}</p>
           <p><strong>Phone:</strong> ${order.addresses?.phone_number || 'N/A'}</p>
@@ -432,21 +464,21 @@ Once the payment is done, please reply to this message with a screenshot of the 
       <div class="total-box">
         ${showPrice ? `
         <div class="total-row">
-          <span>Subtotal:</span>
-          <span>₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
+          <span class="label">Subtotal:</span>
+          <span class="val">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
         </div>
         <div class="total-row">
-          <span>Shipping & Assembly:</span>
-          <span style="color: #166534; font-weight: 600; font-size: 11px; letter-spacing: 0.05em;">COMPLIMENTARY</span>
+          <span class="label">Shipping & Assembly:</span>
+          <span class="val" style="color: #166534; font-weight: 600; font-size: 11px; letter-spacing: 0.05em;">COMPLIMENTARY</span>
         </div>
         <div class="total-row grand">
-          <span>${isPaid ? 'Total Paid:' : 'Total Due:'}</span>
-          <span>₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
+          <span class="label">${isPaid ? 'Total Paid:' : 'Total Due:'}</span>
+          <span class="val">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
         </div>
         ${!isPaid ? `<div style="text-align: center; margin-top: 10px;"><span class="badge unpaid" style="font-size: 11px; padding: 5px 12px;">⚠ NOT PAID</span></div>` : ''}
         ` : `
         <div class="total-row grand" style="font-size: 11px; text-transform: none; color: #8B5CF6; border-top: 2px solid #8B5CF6; padding-top: 10px;">
-          <span>Once ordered, the HampBox team will contact you with order details.</span>
+          <span class="label" style="float: none !important;">Once ordered, the HampBox team will contact you with order details.</span>
         </div>
         `}
       </div>
