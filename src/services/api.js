@@ -603,9 +603,17 @@ export const api = {
 
   updateOrderStatus: async (id, status) => {
     if (!IS_MOCK_MODE) {
-      const { data, error } = await supabase.from('gift_orders').update({ order_status: status }).eq('order_id', id).select();
-      if (error) throw error;
-      return data[0];
+      try {
+        const { data, error } = await supabase.from('gift_orders').update({ order_status: status }).eq('order_id', id).select();
+        if (error) throw error;
+        if (data && data[0]) return data[0];
+      } catch (e) {
+        if (isSchemaError(e)) {
+          console.warn('gift_orders update status fell back to local storage:', e.message || e);
+        } else {
+          throw e;
+        }
+      }
     }
     const orders = getItems('hb_orders');
     const idx = orders.findIndex(o => o.order_id === id);

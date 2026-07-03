@@ -86,7 +86,10 @@ export const OrdersManage = () => {
 
   // Convert logo to base64 for PDF embedding (changed to return path directly to avoid CORS hangs)
   const getLogoBase64 = () => {
-    return logoImg;
+    if (logoImg.startsWith('http') || logoImg.startsWith('data:')) {
+      return logoImg;
+    }
+    return window.location.origin + logoImg;
   };
 
   // Open UPI selection modal before WhatsApp or Mark Paid
@@ -139,7 +142,7 @@ export const OrdersManage = () => {
         );
       } catch (err) {
         console.error(err);
-        toast.error('Failed to update status');
+        toast.error(err.message || 'Failed to update status');
       } finally {
         setUpdatingOrderId(null);
       }
@@ -336,18 +339,9 @@ Once the payment is done, please reply to this message with a screenshot of the 
 </html>
     `;
 
-    // Create a temporary container for PDF rendering
-    const container = document.createElement('div');
-    container.innerHTML = htmlContent;
-    container.style.position = 'absolute';
-    container.style.left = '-9999px';
-    container.style.top = '0';
-    container.style.width = '794px'; // A4 width in px at 96dpi
-    document.body.appendChild(container);
-
     try {
       const opt = {
-        margin: 0,
+        margin: 10,
         filename: `Invoice-${orderRef.replace('#', '')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, logging: false },
@@ -355,13 +349,11 @@ Once the payment is done, please reply to this message with a screenshot of the 
       };
 
       const exporter = html2pdf.default || html2pdf;
-      await exporter().set(opt).from(container).save();
+      await exporter().set(opt).from(htmlContent).save();
       toast.success('Invoice PDF generated successfully!');
     } catch (err) {
       console.error('PDF generation failed:', err);
-      toast.error('Failed to generate PDF');
-    } finally {
-      document.body.removeChild(container);
+      toast.error(err.message || 'Failed to generate PDF');
     }
   };
 
@@ -384,7 +376,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
       );
     } catch (err) {
       console.error(err);
-      toast.error('Failed to update status');
+      toast.error(err.message || 'Failed to update status');
     } finally {
       setUpdatingOrderId(null);
     }
