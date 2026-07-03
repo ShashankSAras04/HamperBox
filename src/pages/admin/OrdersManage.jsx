@@ -236,7 +236,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
     .invoice-container {
       width: 794px !important;
       height: 1123px !important;
-      padding: 40px !important;
+      padding: 40px 60px !important;
       box-sizing: border-box !important;
       position: relative !important;
       background: #ffffff !important;
@@ -337,8 +337,8 @@ Once the payment is done, please reply to this message with a screenshot of the 
     .footer { 
       position: absolute !important;
       bottom: 40px !important;
-      left: 40px !important;
-      right: 40px !important;
+      left: 60px !important;
+      right: 60px !important;
       text-align: center !important; 
       border-top: 1px solid #e2e8f0 !important; 
       padding-top: 15px !important; 
