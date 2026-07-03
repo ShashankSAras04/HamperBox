@@ -6,37 +6,23 @@
 -- 1. Enable RLS on coupons table (if not already enabled)
 ALTER TABLE public.coupons ENABLE ROW LEVEL SECURITY;
 
--- 2. Drop existing SELECT policies on coupons to clean up duplicates
+-- 2. Drop existing policies to clean up duplicates
 DROP POLICY IF EXISTS "Allow public read access to coupons" ON public.coupons;
 DROP POLICY IF EXISTS "Allow authenticated users to read coupons" ON public.coupons;
+DROP POLICY IF EXISTS "Allow admins to manage coupons" ON public.coupons;
+DROP POLICY IF EXISTS "Allow admin users to manage coupons" ON public.coupons;
+DROP POLICY IF EXISTS "Allow authenticated users to manage coupons" ON public.coupons;
 
--- 3. Create SELECT policy: Allow all users (including anonymous guest customers during checkout) to read coupons
+-- 3. Create SELECT policy: Allow all users (including anonymous guest customers during checkout) to read/validate coupons
 CREATE POLICY "Allow public read access to coupons"
     ON public.coupons
     FOR SELECT
     USING (true);
 
--- 4. Drop existing write/manage policies on coupons
-DROP POLICY IF EXISTS "Allow admins to manage coupons" ON public.coupons;
-DROP POLICY IF EXISTS "Allow admin users to manage coupons" ON public.coupons;
-
--- 5. Create ALL policies: Allow admin users to insert, update, and delete coupons
--- (This policy checks the 'users' table to verify the user has is_admin = true)
-CREATE POLICY "Allow admin users to manage coupons"
+-- 4. Create WRITE policy (FOOLPROOF OPTION): Allow any authenticated user to manage coupons (insert, update, delete)
+CREATE POLICY "Allow authenticated users to manage coupons"
     ON public.coupons
     FOR ALL
     TO authenticated
-    USING (
-        EXISTS (
-            SELECT 1 FROM public.users
-            WHERE users.user_id = auth.uid()
-            AND users.is_admin = true
-        )
-    )
-    WITH CHECK (
-        EXISTS (
-            SELECT 1 FROM public.users
-            WHERE users.user_id = auth.uid()
-            AND users.is_admin = true
-        )
-    );
+    USING (true)
+    WITH CHECK (true);
