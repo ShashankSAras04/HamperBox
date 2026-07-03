@@ -220,32 +220,46 @@ Once the payment is done, please reply to this message with a screenshot of the 
     html, body {
       margin: 0;
       padding: 0;
-      background: #fff !important;
+      background: #ffffff !important;
       -webkit-print-color-adjust: exact;
       font-family: 'Outfit', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
-    /* Strict A4 constraints to fit exactly on 1 page */
+    /* Strict pixel A4 constraints for exact rendering */
     .invoice-container {
-      width: 210mm;
-      height: 297mm;
-      padding: 20mm;
-      box-sizing: border-box;
-      position: relative;
-      background: #fff !important;
+      width: 794px !important;
+      height: 1123px !important;
+      padding: 40px !important;
+      box-sizing: border-box !important;
+      position: relative !important;
+      background: #ffffff !important;
+    }
+    
+    /* Shield all internal text elements from dark mode by forcing color */
+    .invoice-container, 
+    .invoice-container *, 
+    .invoice-container div,
+    .invoice-container p,
+    .invoice-container span,
+    .invoice-container h3,
+    .invoice-container td,
+    .invoice-container th,
+    .invoice-container strong {
       color: #1e293b !important;
+      background-color: transparent !important;
+      box-sizing: border-box !important;
     }
     
     .content { 
-      position: relative; 
-      z-index: 1; 
+      position: relative !important; 
+      z-index: 1 !important; 
     }
     
     .header { 
       width: 100% !important;
       border-bottom: 2px solid #8B5CF6 !important; 
-      padding-bottom: 15px; 
-      margin-bottom: 25px; 
+      padding-bottom: 15px !important; 
+      margin-bottom: 25px !important; 
       overflow: hidden !important;
     }
     
@@ -261,15 +275,15 @@ Once the payment is done, please reply to this message with a screenshot of the 
     }
     
     .logo { 
-      font-size: 28px; 
-      font-weight: 800; 
+      font-size: 28px !important; 
+      font-weight: 800 !important; 
       color: #8B5CF6 !important; 
-      letter-spacing: -0.05em; 
-      font-family: 'Georgia', serif; 
+      letter-spacing: -0.05em !important; 
+      font-family: 'Georgia', serif !important; 
       margin: 0 !important;
     }
     .title { 
-      font-size: 18px; 
+      font-size: 18px !important; 
       font-weight: bold; 
       color: #334155 !important; 
       margin: 0 !important;
@@ -277,8 +291,9 @@ Once the payment is done, please reply to this message with a screenshot of the 
     
     .details { 
       width: 100% !important;
-      margin-bottom: 25px; 
+      margin-bottom: 25px !important; 
       overflow: hidden !important;
+      clear: both !important;
     }
     
     .details-left {
@@ -292,61 +307,52 @@ Once the payment is done, please reply to this message with a screenshot of the 
     }
     
     .details h3 { 
-      font-size: 11px; 
+      font-size: 11px !important; 
       color: #94a3b8 !important; 
-      text-transform: uppercase; 
+      text-transform: uppercase !important; 
       margin-top: 0 !important;
-      margin-bottom: 6px; 
+      margin-bottom: 6px !important; 
       border-bottom: 1px solid #e2e8f0 !important; 
-      padding-bottom: 4px; 
-      letter-spacing: 0.05em; 
+      padding-bottom: 4px !important; 
+      letter-spacing: 0.05em !important; 
     }
     .details p { 
-      margin: 3px 0; 
-      font-size: 13px; 
-      color: #334155 !important; 
-    }
-    .details strong {
-      color: #1e293b !important;
+      margin: 3px 0 !important; 
+      font-size: 13px !important; 
     }
     
     .table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      margin-bottom: 25px; 
+      width: 100% !important; 
+      border-collapse: collapse !important; 
+      margin-bottom: 25px !important; 
       clear: both !important;
     }
     .table th { 
       background: #f8fafc !important; 
       border-bottom: 2px solid #cbd5e1 !important; 
-      padding: 10px 14px; 
-      font-size: 11px; 
-      text-transform: uppercase; 
-      text-align: left; 
-      font-weight: bold; 
+      padding: 10px 14px !important; 
+      font-size: 11px !important; 
+      text-transform: uppercase !important; 
+      text-align: left !important; 
+      font-weight: bold !important; 
       color: #475569 !important; 
     }
     .table td { 
       border-bottom: 1px solid #e2e8f0 !important; 
-      padding: 10px 14px; 
-      font-size: 13px; 
-      color: #334155 !important; 
-    }
-    .table td strong {
-      color: #1e293b !important;
+      padding: 10px 14px !important; 
+      font-size: 13px !important; 
     }
     
     .total-box { 
-      float: right; 
-      width: 280px; 
-      margin-top: 5px; 
+      float: right !important; 
+      width: 280px !important; 
+      margin-top: 5px !important; 
       clear: both !important;
     }
     .total-row { 
       width: 100% !important;
-      padding: 4px 0; 
-      font-size: 13px; 
-      color: #475569 !important; 
+      padding: 4px 0 !important; 
+      font-size: 13px !important; 
       overflow: hidden !important;
     }
     .total-row span.label {
@@ -356,21 +362,22 @@ Once the payment is done, please reply to this message with a screenshot of the 
       float: right !important;
     }
     
-    .total-row.grand { 
+    .total-row.grand,
+    .total-row.grand span { 
       border-top: 2px solid #8B5CF6 !important; 
-      padding-top: 8px; 
-      font-size: 15px; 
-      font-weight: bold; 
+      padding-top: 8px !important; 
+      font-size: 15px !important; 
+      font-weight: bold !important; 
       color: #8B5CF6 !important; 
     }
     
     .badge { 
-      display: inline-block; 
-      padding: 3px 8px; 
-      border-radius: 9999px; 
-      font-size: 9px; 
-      font-weight: bold; 
-      text-transform: uppercase; 
+      display: inline-block !important; 
+      padding: 3px 8px !important; 
+      border-radius: 9999px !important; 
+      font-size: 9px !important; 
+      font-weight: bold !important; 
+      text-transform: uppercase !important; 
     }
     .badge.paid { 
       background: #dcfce7 !important; 
@@ -387,18 +394,18 @@ Once the payment is done, please reply to this message with a screenshot of the 
     
     .footer { 
       position: absolute !important;
-      bottom: 20mm !important;
-      left: 20mm !important;
-      right: 20mm !important;
-      text-align: center; 
+      bottom: 40px !important;
+      left: 40px !important;
+      right: 40px !important;
+      text-align: center !important; 
       border-top: 1px solid #e2e8f0 !important; 
-      padding-top: 15px; 
-      font-size: 11px; 
-      color: #94a3b8 !important; 
+      padding-top: 15px !important; 
     }
-    .footer p {
+    .footer p,
+    .footer span {
       color: #94a3b8 !important;
-      margin: 4px 0;
+      font-size: 11px !important; 
+      margin: 4px 0 !important;
     }
   </style>
 </head>
@@ -467,10 +474,6 @@ Once the payment is done, please reply to this message with a screenshot of the 
           <span class="label">Subtotal:</span>
           <span class="val">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
         </div>
-        <div class="total-row">
-          <span class="label">Shipping & Assembly:</span>
-          <span class="val" style="color: #166534; font-weight: 600; font-size: 11px; letter-spacing: 0.05em;">COMPLIMENTARY</span>
-        </div>
         <div class="total-row grand">
           <span class="label">${isPaid ? 'Total Paid:' : 'Total Due:'}</span>
           <span class="val">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
@@ -511,8 +514,8 @@ Once the payment is done, please reply to this message with a screenshot of the 
       // Create a temporary hidden iframe
       const iframe = document.createElement('iframe');
       iframe.style.position = 'fixed';
-      iframe.style.width = '210mm';
-      iframe.style.height = '297mm';
+      iframe.style.width = '794px';
+      iframe.style.height = '1123px';
       iframe.style.top = '-10000px';
       iframe.style.left = '-10000px';
       iframe.style.border = 'none';
