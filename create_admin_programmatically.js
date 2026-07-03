@@ -9,12 +9,12 @@ async function main() {
   try {
     // 1. Purge any duplicate profiles
     console.log("Purging any conflicting public profile...");
-    await supabase.from('users').delete().eq('email', 'admin@hamperbox.com');
+    await supabase.from('users').delete().eq('email', 'admin@hampbox.com');
 
     // 2. Create the admin user programmatically via the Admin Auth API
-    console.log("Creating admin user admin@hamperbox.com...");
+    console.log("Creating admin user admin@hampbox.com...");
     const { data, error } = await supabase.auth.admin.createUser({
-      email: 'admin@hamperbox.com',
+      email: 'admin@hampbox.com',
       password: 'admin123',
       email_confirm: true,
       user_metadata: {

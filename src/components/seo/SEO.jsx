@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 
 export const SEO = ({
   title,
-  description = 'Exquisite and luxurious custom hampers for all occasions. Order premium gourmet, self-care, and corporate gifts from HamperBox.',
+  description = 'Exquisite and luxurious custom hampers for all occasions. Order premium gourmet, self-care, and corporate gifts from HampBox.',
   canonicalUrl = window.location.href,
   ogImage = 'https://images.unsplash.com/photo-1549007994-cb92ca8a3bd0?auto=format&fit=crop&q=80&w=800',
   schemaType = 'WebPage',
   schemaData = null
 }) => {
-  const fullTitle = `${title} | HamperBox - Premium Online Gifting Platform`;
+  const fullTitle = `${title} | HampBox - Premium Online Gifting Platform`;
 
   useEffect(() => {
     // Update document title
@@ -46,7 +46,7 @@ export const SEO = ({
     setMetaTag('property', 'og:type', 'website');
     setMetaTag('property', 'og:url', canonicalUrl);
     setMetaTag('property', 'og:image', ogImage);
-    setMetaTag('property', 'og:site_name', 'HamperBox');
+    setMetaTag('property', 'og:site_name', 'HampBox');
 
     // Twitter Card Tags
     setMetaTag('name', 'twitter:card', 'summary_large_image');
@@ -65,19 +65,19 @@ export const SEO = ({
       '@graph': [
         {
           '@type': 'Organization',
-          '@id': 'https://hamperbox.com/#organization',
-          'name': 'HamperBox',
-          'url': 'https://hamperbox.com',
+          '@id': 'https://hampbox.com/#organization',
+          'name': 'HampBox',
+          'url': 'https://hampbox.com',
           'logo': 'https://images.unsplash.com/photo-1549007994-cb92ca8a3bd0?auto=format&fit=crop&q=80&w=200',
           'description': 'Exquisite and luxurious custom hampers for all occasions.'
         },
         {
           '@type': 'WebSite',
-          '@id': 'https://hamperbox.com/#website',
-          'url': 'https://hamperbox.com',
-          'name': 'HamperBox',
+          '@id': 'https://hampbox.com/#website',
+          'url': 'https://hampbox.com',
+          'name': 'HampBox',
           'publisher': {
-            '@id': 'https://hamperbox.com/#organization'
+            '@id': 'https://hampbox.com/#organization'
           }
         }
       ]

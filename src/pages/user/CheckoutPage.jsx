@@ -167,7 +167,7 @@ export const CheckoutPage = () => {
           </div>
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white font-serif">Order Confirmed!</h2>
-            <p className="text-slate-500 text-sm">Thank you for shopping with HamperBox. Your premium gifts are being assembled with care.</p>
+            <p className="text-slate-500 text-sm">Thank you for shopping with HampBox. Your premium gifts are being assembled with care.</p>
           </div>
           <div className="p-4 bg-slate-50 dark:bg-slate-950 border border-slate-200/40 dark:border-slate-850 rounded-2xl">
             <p className="text-xs text-slate-400">Order Reference</p>

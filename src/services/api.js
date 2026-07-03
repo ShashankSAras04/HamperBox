@@ -161,7 +161,7 @@ const initMockDB = () => {
     localStorage.setItem('hb_users', JSON.stringify([
       {
         user_id: 'd0000000-0000-0000-0000-000000000001',
-        email: 'admin@hamperbox.com',
+        email: 'admin@hampbox.com',
         full_name: 'Jane Admin',
         phone_number: '+91 9999999999',
         is_admin: true,

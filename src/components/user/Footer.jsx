@@ -91,11 +91,11 @@ export const Footer = () => {
                 H
               </span>
               <span className="text-xl font-bold font-serif bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                HamperBox
+                HampBox
               </span>
             </Link>
             <p className="text-sm max-w-xs leading-relaxed text-slate-500 dark:text-slate-450">
-              HamperBox makes gifting effortless and premium. Thoughtfully curated gourmet boxes, self-care hampers, and corporate gift assemblies.
+              HampBox makes gifting effortless and premium. Thoughtfully curated gourmet boxes, self-care hampers, and corporate gift assemblies.
             </p>
 
             {/* Social Icons — pulled from site settings */}
@@ -190,7 +190,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-900 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 gap-4">
           <p>
-            © {new Date().getFullYear()} HamperBox.{' '}
+            © {new Date().getFullYear()} HampBox.{' '}
             {/* Secret admin login — looks like plain copyright text */}
             <Link
               to="/profile"

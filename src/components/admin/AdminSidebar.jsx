@@ -30,9 +30,9 @@ export const AdminSidebar = () => {
       {/* Brand Heading */}
       <div className="h-20 flex items-center px-6 border-b border-slate-800">
         <Link to="/" className="flex items-center space-x-2.5">
-          <img src={logo} alt="HamperBox Logo" className="w-8 h-8 object-contain rounded-lg" />
+          <img src={logo} alt="HampBox Logo" className="w-8 h-8 object-contain rounded-lg" />
           <span className="text-lg font-bold font-serif text-white tracking-wider">
-            HamperBox
+            HampBox
           </span>
         </Link>
         <span className="ml-2 px-2 py-0.5 rounded bg-primary/20 text-[9px] text-primary font-bold uppercase">

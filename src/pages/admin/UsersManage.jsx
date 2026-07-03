@@ -370,7 +370,7 @@ export const UsersManage = () => {
                   required
                   value={newAdminEmail}
                   onChange={(e) => setNewAdminEmail(e.target.value)}
-                  placeholder="e.g. admin.smith@hamperbox.com"
+                  placeholder="e.g. admin.smith@hampbox.com"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-transparent text-xs text-slate-800 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </div>

@@ -41,7 +41,7 @@ export const NotFound = () => {
             className="inline-flex items-center justify-center space-x-2 w-full py-3.5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-primary to-secondary hover:shadow-lg hover:shadow-primary/15 transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Return to HamperBox Home</span>
+            <span>Return to HampBox Home</span>
           </Link>
         </div>
 

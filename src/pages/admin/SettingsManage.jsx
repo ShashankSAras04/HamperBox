@@ -201,7 +201,7 @@ export const SettingsManage = () => {
       loadData();
     } catch (err) {
       console.error(err);
-      toast.error('Coupon code already exists or database error occurred');
+      toast.error(err.message || 'Coupon code already exists or database error occurred');
     } finally {
       setSavingCoupon(false);
     }

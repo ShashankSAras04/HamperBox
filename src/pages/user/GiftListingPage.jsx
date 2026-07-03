@@ -91,7 +91,7 @@ export const GiftListingPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 py-16 transition-colors duration-300">
-      <SEO title="Luxury Gift Hampers Collection" description="Explore HamperBox's premium collection of gift boxes, gourmet chocolate baskets, and corporate desk packages." />
+      <SEO title="Luxury Gift Hampers Collection" description="Explore HampBox's premium collection of gift boxes, gourmet chocolate baskets, and corporate desk packages." />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         

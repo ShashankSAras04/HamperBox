@@ -63,7 +63,7 @@ export const ProfilePage = () => {
     try {
       if (isRegister) {
         await signup(email, password, fullName, phoneNumber);
-        toast.success('Registration successful! Welcome to HamperBox.');
+        toast.success('Registration successful! Welcome to HampBox.');
       } else {
         await login(email, password);
         toast.success('Signed in successfully!');
@@ -109,7 +109,7 @@ export const ProfilePage = () => {
   // Autofill helpers for mock testing
   const autofillMock = (role) => {
     if (role === 'admin') {
-      setEmail('admin@hamperbox.com');
+      setEmail('admin@hampbox.com');
       setPassword('admin123');
     } else {
       setEmail('customer1@gmail.com');
@@ -121,7 +121,7 @@ export const ProfilePage = () => {
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 py-16 transition-colors duration-300">
-      <SEO title={user ? "My Profile Dashboard" : "Sign In to HamperBox"} />
+      <SEO title={user ? "My Profile Dashboard" : "Sign In to HampBox"} />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         
@@ -138,7 +138,7 @@ export const ProfilePage = () => {
                 {isRegister ? 'Create Account' : 'Welcome Back'}
               </h2>
               <p className="text-xs text-slate-400">
-                {isRegister ? 'Join HamperBox for curated gifting boxes' : 'Sign in to access your profile and track orders'}
+                {isRegister ? 'Join HampBox for curated gifting boxes' : 'Sign in to access your profile and track orders'}
               </p>
             </div>
 

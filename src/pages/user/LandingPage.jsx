@@ -132,14 +132,14 @@ export const LandingPage = () => {
                   <Link to={heroBanner.link_url} className="block w-full h-full">
                     <img
                       src={heroBanner.image_url}
-                      alt="HamperBox Luxury Gift"
+                      alt="HampBox Luxury Gift"
                       className="w-full h-full object-cover"
                     />
                   </Link>
                 ) : (
                   <img
                     src={heroBanner?.image_url || "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=600"}
-                    alt="HamperBox Luxury Gift"
+                    alt="HampBox Luxury Gift"
                     className="w-full h-full object-cover"
                   />
                 )}
@@ -250,7 +250,7 @@ export const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold font-serif text-slate-900 dark:text-white">
-              Why Choose HamperBox
+              Why Choose HampBox
             </h2>
             <p className="text-slate-500 dark:text-slate-400 mt-2">
               We stand for luxury, dependability, and beautiful expressions.
@@ -296,7 +296,7 @@ export const LandingPage = () => {
             Loved by Givers and Receivers
           </h2>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            See what our customers have to say about their HamperBox experience.
+            See what our customers have to say about their HampBox experience.
           </p>
         </div>
 
@@ -340,7 +340,7 @@ export const LandingPage = () => {
               <span>Share the Joy</span>
             </h2>
             <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm">
-              Follow us on Instagram <a href={settings?.instagram_url || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-semibold">@HamperBoxGifting</a> and tag your unboxings.
+              Follow us on Instagram <a href={settings?.instagram_url || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-semibold">@HampBoxGifting</a> and tag your unboxings.
             </p>
           </div>
 

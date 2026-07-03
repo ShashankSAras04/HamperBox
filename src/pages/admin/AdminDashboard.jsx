@@ -166,7 +166,7 @@ export const AdminDashboard = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-serif">Dashboard Summary</h1>
-            <p className="text-xs text-slate-500">HamperBox analytics overview and activities log</p>
+            <p className="text-xs text-slate-500">HampBox analytics overview and activities log</p>
           </div>
           <div className="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-500">
             Realtime updates active

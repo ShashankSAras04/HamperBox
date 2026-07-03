@@ -314,7 +314,7 @@ export const OrdersPage = () => {
                       <div className="p-4 bg-amber-50 dark:bg-amber-950/25 border border-amber-250 dark:border-amber-900 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
                         <div className="space-y-1 text-center sm:text-left">
                           <p className="text-xs font-bold text-amber-800 dark:text-amber-400">Order is pending payment verification</p>
-                          <p className="text-[10px] text-slate-500 dark:text-slate-400">Contact the HamperBox team to finalize your payment details and confirm shipping.</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400">Contact the HampBox team to finalize your payment details and confirm shipping.</p>
                         </div>
                         <a
                           href={`https://wa.me/${(settings?.whatsapp_number || '+919620000000').replace(/[^\d+]/g, '')}?text=${encodeURIComponent(`Hello! 🎁 I placed order #HB-${order.order_id.substring(0, 8).toUpperCase()} for ${order.gifts?.gift_name || 'Gift Hamper'}. Please guide me on payment details.`)}`}
@@ -329,7 +329,7 @@ export const OrdersPage = () => {
 
                     {isDelivered && (
                       <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900 rounded-2xl text-center text-xs text-emerald-600 dark:text-emerald-450 font-medium">
-                        Your hamper was successfully delivered! Thank you for gifting with HamperBox. (Notice: This order status is visible for 3 days post-delivery)
+                        Your hamper was successfully delivered! Thank you for gifting with HampBox. (Notice: This order status is visible for 3 days post-delivery)
                       </div>
                     )}
                   </div>

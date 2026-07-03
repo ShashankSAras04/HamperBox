@@ -163,7 +163,7 @@ export const OrdersManage = () => {
       // Undisclosed price template
       message = `Hello! 🎁
 
-Thank you for choosing HamperBox. Regarding your luxury gift order details:
+Thank you for choosing HampBox. Regarding your luxury gift order details:
 
 📋 *Order Details:*
 - *Order Ref:* ${orderRef}
@@ -171,7 +171,7 @@ Thank you for choosing HamperBox. Regarding your luxury gift order details:
 - *Qty:* ${order.quantity}
 
 ✨ *Payment & Billing:*
-*Once ordered, the HamperBox team will contact you with order details.* 
+*Once ordered, the HampBox team will contact you with order details.* 
 
 We will verify custom pricing options and finalize your transaction shortly. Thank you for your patience! 🌟`;
     } else {
@@ -180,7 +180,7 @@ We will verify custom pricing options and finalize your transaction shortly. Tha
       
       message = `Hello! 🎁
 
-Thank you for choosing HamperBox. Here are the payment details for your luxury gift order:
+Thank you for choosing HampBox. Here are the payment details for your luxury gift order:
 
 📋 *Order Details:*
 - *Order Ref:* ${orderRef}
@@ -248,9 +248,9 @@ Once the payment is done, please reply to this message with a screenshot of the 
   <div class="content">
   <div class="header">
     <div class="header-left">
-      ${logoBase64 ? `<img src="${logoBase64}" alt="HamperBox Logo" class="header-logo" />` : ''}
+      ${logoBase64 ? `<img src="${logoBase64}" alt="HampBox Logo" class="header-logo" />` : ''}
       <div>
-        <div class="logo">HamperBox</div>
+        <div class="logo">HampBox</div>
         <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b; font-weight: 550;">Premium Gifting Platform</p>
       </div>
     </div>
@@ -322,14 +322,14 @@ Once the payment is done, please reply to this message with a screenshot of the 
     ${!isPaid ? `<div style="text-align: center; margin-top: 12px;"><span class="badge unpaid" style="font-size: 12px; padding: 6px 16px;">⚠ NOT PAID</span></div>` : ''}
     ` : `
     <div class="total-row grand" style="font-size: 11px; text-transform: none; color: #8B5CF6; border-top: 2px solid #8B5CF6; padding-top: 10px;">
-      <span>Once ordered, the HamperBox team will contact you with order details.</span>
+      <span>Once ordered, the HampBox team will contact you with order details.</span>
     </div>
     `}
   </div>
 
   <div class="footer">
-    <p>Thank you for shopping with HamperBox. We hope the recipient finds joy in this curated gift.</p>
-    <p>&copy; ${new Date().getFullYear()} HamperBox Gifting Pvt. Ltd. All rights reserved.</p>
+    <p>Thank you for shopping with HampBox. We hope the recipient finds joy in this curated gift.</p>
+    <p>&copy; ${new Date().getFullYear()} HampBox Gifting Pvt. Ltd. All rights reserved.</p>
   </div>
   </div>
 </body>
