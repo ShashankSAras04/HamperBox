@@ -262,25 +262,6 @@ Once the payment is done, please reply to this message with a screenshot of the 
       z-index: 1 !important; 
     }
     
-    .header { 
-      width: 100% !important;
-      border-bottom: 2px solid #8B5CF6 !important; 
-      padding-bottom: 15px !important; 
-      margin-bottom: 25px !important; 
-      overflow: hidden !important;
-    }
-    
-    .header-left {
-      float: left !important;
-      width: 50% !important;
-    }
-    
-    .header-right {
-      float: right !important;
-      width: 50% !important;
-      text-align: right !important;
-    }
-    
     .logo { 
       font-size: 28px !important; 
       font-weight: 800 !important; 
@@ -296,24 +277,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
       margin: 0 !important;
     }
     
-    .details { 
-      width: 100% !important;
-      margin-bottom: 25px !important; 
-      overflow: hidden !important;
-      clear: both !important;
-    }
-    
-    .details-left {
-      float: left !important;
-      width: 48% !important;
-    }
-    
-    .details-right {
-      float: right !important;
-      width: 48% !important;
-    }
-    
-    .details h3 { 
+    .details-table h3 { 
       font-size: 11px !important; 
       color: #94a3b8 !important; 
       text-transform: uppercase !important; 
@@ -323,7 +287,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
       padding-bottom: 4px !important; 
       letter-spacing: 0.05em !important; 
     }
-    .details p { 
+    .details-table p { 
       margin: 3px 0 !important; 
       font-size: 13px !important; 
     }
@@ -332,7 +296,6 @@ Once the payment is done, please reply to this message with a screenshot of the 
       width: 100% !important; 
       border-collapse: collapse !important; 
       margin-bottom: 25px !important; 
-      clear: both !important;
     }
     .table th { 
       background: #f8fafc !important; 
@@ -348,34 +311,6 @@ Once the payment is done, please reply to this message with a screenshot of the 
       border-bottom: 1px solid #e2e8f0 !important; 
       padding: 10px 14px !important; 
       font-size: 13px !important; 
-    }
-    
-    .total-box { 
-      float: right; 
-      width: 280px; 
-      margin-top: 5px; 
-      clear: both !important;
-    }
-    .total-row { 
-      width: 100% !important;
-      padding: 4px 0 !important; 
-      font-size: 13px !important; 
-      overflow: hidden !important;
-    }
-    .total-row span.label {
-      float: left !important;
-    }
-    .total-row span.val {
-      float: right !important;
-    }
-    
-    .total-row.grand,
-    .total-row.grand span { 
-      border-top: 2px solid #8B5CF6 !important; 
-      padding-top: 8px !important; 
-      font-size: 15px !important; 
-      font-weight: bold !important; 
-      color: #8B5CF6 !important; 
     }
     
     .badge { 
@@ -419,79 +354,101 @@ Once the payment is done, please reply to this message with a screenshot of the 
 <body>
   <div class="invoice-container" id="invoice-print-container">
     <div class="content">
-      <div class="header">
-        <div class="header-left">
-          <div class="logo">HampBox</div>
-          <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b; font-weight: 550;">Premium Gifting Platform</p>
-        </div>
-        <div class="header-right">
-          <div class="title">OFFICIAL INVOICE</div>
-          <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b;">Ref: ${orderRef}</p>
-        </div>
-      </div>
+      
+      <!-- Header Table -->
+      <table class="header-table" style="width: 100% !important; border-bottom: 2px solid #8B5CF6 !important; padding-bottom: 15px !important; margin-bottom: 25px !important; border-collapse: collapse !important;">
+        <tr>
+          <td style="width: 50% !important; padding: 0 !important; vertical-align: top !important; text-align: left !important;">
+            <div class="logo">HampBox</div>
+            <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b; font-weight: 550;">Premium Gifting Platform</p>
+          </td>
+          <td style="width: 50% !important; padding: 0 !important; vertical-align: top !important; text-align: right !important;">
+            <div class="title">OFFICIAL INVOICE</div>
+            <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b;">Ref: ${orderRef}</p>
+          </td>
+        </tr>
+      </table>
 
-      <div class="details">
-        <div class="details-left">
-          <h3>Order Information</h3>
-          <p><strong>Order Ref:</strong> ${orderRef}</p>
-          <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-          <p><strong>Payment Status:</strong> 
-            ${showPrice ? `
-            <span class="badge ${isPaid ? 'paid' : order.order_status === 'Cancelled' ? 'cancelled' : 'unpaid'}">
-              ${isPaid ? 'PAID via UPI' : order.order_status === 'Cancelled' ? 'CANCELLED' : 'NOT PAID'}
-            </span>
-            ` : `
-            <span class="badge unpaid">Contact for Price</span>
-            `}
-          </p>
-          ${showPrice && orderUpi !== 'N/A' ? `<p><strong>UPI ID (Payment):</strong> ${orderUpi}</p>` : ''}
-        </div>
-        <div class="details-right">
-          <h3>Recipient Shipping Details</h3>
-          <p><strong>Name:</strong> ${order.addresses?.recipient_name || 'N/A'}</p>
-          <p><strong>Phone:</strong> ${order.addresses?.phone_number || 'N/A'}</p>
-          <p><strong>Address:</strong> ${order.addresses?.address_line1 || ''}</p>
-          ${order.addresses?.address_line2 ? `<p>${order.addresses.address_line2}</p>` : ''}
-          <p><strong>Destination:</strong> ${order.addresses?.city || ''}, ${order.addresses?.state || ''} - ${order.addresses?.pincode || ''}</p>
-        </div>
-      </div>
+      <!-- Details Table -->
+      <table class="details-table" style="width: 100% !important; margin-bottom: 25px !important; border-collapse: collapse !important;">
+        <tr>
+          <td style="width: 48% !important; padding: 0 !important; vertical-align: top !important;">
+            <h3>Order Information</h3>
+            <p><strong>Order Ref:</strong> ${orderRef}</p>
+            <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+            <p><strong>Payment Status:</strong> 
+              ${showPrice ? `
+              <span class="badge ${isPaid ? 'paid' : order.order_status === 'Cancelled' ? 'cancelled' : 'unpaid'}">
+                ${isPaid ? 'PAID via UPI' : order.order_status === 'Cancelled' ? 'CANCELLED' : 'NOT PAID'}
+              </span>
+              ` : `
+              <span class="badge unpaid">Contact for Price</span>
+              `}
+            </p>
+            ${showPrice && orderUpi !== 'N/A' ? `<p><strong>UPI ID (Payment):</strong> ${orderUpi}</p>` : ''}
+          </td>
+          <td style="width: 4% !important; padding: 0 !important;"></td>
+          <td style="width: 48% !important; padding: 0 !important; vertical-align: top !important;">
+            <h3>Recipient Shipping Details</h3>
+            <p><strong>Name:</strong> ${order.addresses?.recipient_name || 'N/A'}</p>
+            <p><strong>Phone:</strong> ${order.addresses?.phone_number || 'N/A'}</p>
+            <p><strong>Address:</strong> ${order.addresses?.address_line1 || ''}</p>
+            ${order.addresses?.address_line2 ? `<p>${order.addresses.address_line2}</p>` : ''}
+            <p><strong>Destination:</strong> ${order.addresses?.city || ''}, ${order.addresses?.state || ''} - ${order.addresses?.pincode || ''}</p>
+          </td>
+        </tr>
+      </table>
 
+      <!-- Products Table -->
       <table class="table">
         <thead>
           <tr>
-            <th>Luxury Hamper Description</th>
-            <th style="text-align: right;">Unit Price</th>
-            <th style="text-align: center;">Quantity</th>
-            <th style="text-align: right;">Total Amount</th>
+            <th style="padding: 10px 14px !important; text-align: left !important;">Luxury Hamper Description</th>
+            <th style="padding: 10px 14px !important; text-align: right !important;">Unit Price</th>
+            <th style="padding: 10px 14px !important; text-align: center !important;">Quantity</th>
+            <th style="padding: 10px 14px !important; text-align: right !important;">Total Amount</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>${order.gifts?.gift_name || 'Gift Hamper'}</strong></td>
-            <td style="text-align: right;">${showPrice ? `₹${parseFloat(order.gifts?.gift_price || 0).toLocaleString('en-IN')}` : 'On Request'}</td>
-            <td style="text-align: center;">${order.quantity}</td>
-            <td style="text-align: right;">${showPrice ? `₹${parseFloat(order.total_amount).toLocaleString('en-IN')}` : 'On Request'}</td>
+            <td style="padding: 10px 14px !important; text-align: left !important;"><strong>${order.gifts?.gift_name || 'Gift Hamper'}</strong></td>
+            <td style="padding: 10px 14px !important; text-align: right !important;">${showPrice ? `₹${parseFloat(order.gifts?.gift_price || 0).toLocaleString('en-IN')}` : 'On Request'}</td>
+            <td style="padding: 10px 14px !important; text-align: center !important;">${order.quantity}</td>
+            <td style="padding: 10px 14px !important; text-align: right !important;">${showPrice ? `₹${parseFloat(order.total_amount).toLocaleString('en-IN')}` : 'On Request'}</td>
           </tr>
         </tbody>
       </table>
 
-      <div class="total-box">
-        ${showPrice ? `
-        <div class="total-row">
-          <span class="label">Subtotal:</span>
-          <span class="val">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
-        </div>
-        <div class="total-row grand">
-          <span class="label">${isPaid ? 'Total Paid:' : 'Total Due:'}</span>
-          <span class="val">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
-        </div>
-        ${!isPaid ? `<div style="text-align: center; margin-top: 10px;"><span class="badge unpaid" style="font-size: 11px; padding: 5px 12px;">⚠ NOT PAID</span></div>` : ''}
-        ` : `
-        <div class="total-row grand" style="font-size: 11px; text-transform: none; color: #8B5CF6; border-top: 2px solid #8B5CF6; padding-top: 10px;">
-          <span class="label" style="float: none !important;">Once ordered, the HampBox team will contact you with order details.</span>
-        </div>
-        `}
-      </div>
+      <!-- Totals Wrapping Table -->
+      <table style="width: 100% !important; border-collapse: collapse !important; margin-top: 5px !important;">
+        <tr>
+          <td style="width: 60% !important; padding: 0 !important;"></td>
+          <td style="width: 40% !important; padding: 0 !important; vertical-align: top !important;">
+            ${showPrice ? `
+            <table style="width: 100% !important; border-collapse: collapse !important;">
+              <tr>
+                <td style="text-align: left !important; padding: 4px 0 !important; font-size: 13px !important;">Subtotal:</td>
+                <td style="text-align: right !important; padding: 4px 0 !important; font-size: 13px !important;">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left !important; padding: 8px 0 !important; font-size: 15px !important; font-weight: bold !important; color: #8B5CF6 !important; border-top: 2px solid #8B5CF6 !important;">${isPaid ? 'Total Paid:' : 'Total Due:'}</td>
+                <td style="text-align: right !important; padding: 8px 0 !important; font-size: 15px !important; font-weight: bold !important; color: #8B5CF6 !important; border-top: 2px solid #8B5CF6 !important;">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</td>
+              </tr>
+            </table>
+            ${!isPaid ? `<div style="text-align: center; margin-top: 12px;"><span class="badge unpaid" style="font-size: 11px; padding: 5px 12px;">⚠ NOT PAID</span></div>` : ''}
+            ` : `
+            <table style="width: 100% !important; border-collapse: collapse !important;">
+              <tr>
+                <td style="font-size: 11px; text-transform: none; color: #8B5CF6 !important; border-top: 2px solid #8B5CF6 !important; padding-top: 10px; text-align: right !important;">
+                  Once ordered, the HampBox team will contact you with order details.
+                </td>
+              </tr>
+            </table>
+            `}
+          </td>
+        </tr>
+      </table>
+
     </div>
 
     <div class="footer">
