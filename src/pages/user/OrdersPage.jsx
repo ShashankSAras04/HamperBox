@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ShoppingBag, Truck, Calendar, MapPin, Phone, RefreshCw } from 'lucide-react';
+import { Search, ShoppingBag, Truck, Calendar, MapPin, Phone, RefreshCw, Hash } from 'lucide-react';
 import { SEO } from '../../components/seo/SEO';
 import { api } from '../../services/api';
 import toast from 'react-hot-toast';
 
 export const OrdersPage = () => {
+  const [searchMode, setSearchMode] = useState('phone'); // 'phone' | 'reference'
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [referenceNumber, setReferenceNumber] = useState('');
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
@@ -41,15 +43,28 @@ export const OrdersPage = () => {
 
   const handleSearch = async (e) => {
     if (e) e.preventDefault();
-    if (!phoneNumber.trim()) {
-      toast.error('Please enter a phone number');
-      return;
+
+    if (searchMode === 'phone') {
+      if (!phoneNumber.trim()) {
+        toast.error('Please enter a phone number');
+        return;
+      }
+    } else {
+      if (!referenceNumber.trim()) {
+        toast.error('Please enter an order reference number');
+        return;
+      }
     }
 
     setLoading(true);
     setSearched(true);
     try {
-      const data = await api.getOrdersByPhone(phoneNumber.trim());
+      let data;
+      if (searchMode === 'phone') {
+        data = await api.getOrdersByPhone(phoneNumber.trim());
+      } else {
+        data = await api.getOrdersByRef(referenceNumber.trim());
+      }
       
       // Filter orders based on user requirements:
       // 1. Hide Cancelled orders
@@ -94,22 +109,63 @@ export const OrdersPage = () => {
           </div>
           <h1 className="text-3xl font-bold font-serif text-slate-900 dark:text-white">Track Order Status</h1>
           <p className="text-xs text-slate-455 max-w-md mx-auto">
-            Enter the contact number provided during checkout to trace your luxury hamper assembly, dispatch, and delivery.
+            Track your luxury hamper using your phone number or order reference number.
           </p>
+        </div>
+
+        {/* Search Mode Toggle */}
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl p-1 shadow-sm">
+            <button
+              onClick={() => { setSearchMode('phone'); setSearched(false); setOrders([]); }}
+              className={`flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                searchMode === 'phone'
+                  ? 'bg-primary text-white shadow-md shadow-primary/10'
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+              }`}
+            >
+              <Phone className="w-3.5 h-3.5" />
+              <span>Phone Number</span>
+            </button>
+            <button
+              onClick={() => { setSearchMode('reference'); setSearched(false); setOrders([]); }}
+              className={`flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                searchMode === 'reference'
+                  ? 'bg-primary text-white shadow-md shadow-primary/10'
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+              }`}
+            >
+              <Hash className="w-3.5 h-3.5" />
+              <span>Order Reference</span>
+            </button>
+          </div>
         </div>
 
         {/* Search Bar Container */}
         <form onSubmit={handleSearch} className="bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 p-6 rounded-3xl shadow-sm mb-10 flex flex-col sm:flex-row gap-4 items-center">
-          <div className="relative flex-grow w-full flex items-center border border-slate-100 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-955 px-4 py-3 rounded-2xl">
-            <Phone className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0" />
-            <input
-              type="tel"
-              placeholder="Enter phone number (e.g. +91...)"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              className="bg-transparent text-sm focus:outline-none dark:text-white w-full"
-            />
-          </div>
+          {searchMode === 'phone' ? (
+            <div className="relative flex-grow w-full flex items-center border border-slate-100 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-955 px-4 py-3 rounded-2xl">
+              <Phone className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0" />
+              <input
+                type="tel"
+                placeholder="Enter phone number (e.g. +91...)"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="bg-transparent text-sm focus:outline-none text-slate-900 dark:text-white w-full"
+              />
+            </div>
+          ) : (
+            <div className="relative flex-grow w-full flex items-center border border-slate-100 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-955 px-4 py-3 rounded-2xl">
+              <Hash className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0" />
+              <input
+                type="text"
+                placeholder="Enter order reference (e.g. #HB-XXXXXXXX)"
+                value={referenceNumber}
+                onChange={(e) => setReferenceNumber(e.target.value)}
+                className="bg-transparent text-sm focus:outline-none text-slate-900 dark:text-white w-full"
+              />
+            </div>
+          )}
           <button
             type="submit"
             disabled={loading}
@@ -178,7 +234,7 @@ export const OrdersPage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       {/* Product details */}
                       <div className="md:col-span-6 flex space-x-4">
-                        <div className="w-20 h-20 bg-slate-100 rounded-2xl overflow-hidden flex-shrink-0 border border-slate-100 dark:border-slate-850">
+                        <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-2xl overflow-hidden flex-shrink-0 border border-slate-100 dark:border-slate-850">
                           <img
                             src={order.gifts?.gift_image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=200'}
                             alt={order.gifts?.gift_name || 'Gift Hamper'}
@@ -258,7 +314,7 @@ export const OrdersPage = () => {
                       <div className="p-4 bg-amber-50 dark:bg-amber-955/25 border border-amber-250 dark:border-amber-900 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
                         <div className="space-y-1 text-center sm:text-left">
                           <p className="text-xs font-bold text-amber-800 dark:text-amber-400">Order is pending payment verification</p>
-                          <p className="text-[10px] text-slate-500">Contact the HamperBox team to finalize your payment details and confirm shipping.</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400">Contact the HamperBox team to finalize your payment details and confirm shipping.</p>
                         </div>
                         <a
                           href={`https://wa.me/${(settings?.whatsapp_number || '+919620000000').replace(/[^\d+]/g, '')}?text=${encodeURIComponent(`Hello! 🎁 I placed order #HB-${order.order_id.substring(0, 8).toUpperCase()} for ${order.gifts?.gift_name || 'Gift Hamper'}. Please guide me on payment details.`)}`}
@@ -286,8 +342,10 @@ export const OrdersPage = () => {
                 <ShoppingBag className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-slate-850 dark:text-white">No active orders</h3>
-              <p className="text-xs text-slate-500">
-                We couldn't find any pending, processing, or recently delivered orders associated with this phone number.
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                {searchMode === 'phone' 
+                  ? "We couldn't find any pending, processing, or recently delivered orders associated with this phone number."
+                  : "We couldn't find any orders matching this reference number. Please check and try again."}
               </p>
             </div>
           )

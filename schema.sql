@@ -153,3 +153,21 @@ CREATE TABLE IF NOT EXISTS public.coupons (
 INSERT INTO public.coupons (code, discount_type, discount_value, is_active)
 VALUES ('WELCOME10', 'percentage', 10.00, true)
 ON CONFLICT (code) DO NOTHING;
+
+-- ==========================================
+-- UPI ID Management & Order Payment Tracking
+-- ==========================================
+
+-- 5. UPI IDs Table (admin-managed payment identifiers)
+CREATE TABLE IF NOT EXISTS public.upi_ids (
+    upi_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    upi_address TEXT NOT NULL UNIQUE,
+    label TEXT DEFAULT '',
+    is_default BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
+);
+
+-- 6. Add UPI tracking columns to gift_orders
+ALTER TABLE public.gift_orders ADD COLUMN IF NOT EXISTS selected_upi TEXT;
+ALTER TABLE public.gift_orders ADD COLUMN IF NOT EXISTS upi_locked BOOLEAN DEFAULT FALSE;
+

@@ -40,6 +40,32 @@ body, header, main, footer, aside, nav, div, section, article, h1, h2, h3, h4, h
   input::placeholder, textarea::placeholder {
     @apply text-slate-400 dark:text-slate-500;
   }
+
+  /* Fix option elements in dark mode (dropdown menus) */
+  select option {
+    @apply bg-white text-slate-900;
+  }
+
+  .dark select option {
+    background-color: #0f172a;
+    color: #e2e8f0;
+  }
+
+  /* Fix table text visibility in dark mode */
+  .dark table td,
+  .dark table th {
+    color: inherit;
+  }
+
+  /* Fix white-background containers in dark mode */
+  .dark .bg-white {
+    --tw-bg-opacity: 1;
+  }
+
+  /* Ensure pagination and filter buttons have visible text in dark mode */
+  .dark button {
+    color: inherit;
+  }
 }
 
 /* Glassmorphism utilities */

@@ -923,6 +923,172 @@ export const api = {
     
     const coupons = getItems('hb_coupons') || [];
     return coupons.find(c => c.code.toUpperCase() === code.toUpperCase() && c.is_active) || null;
+  },
+
+  // ==========================================
+  // 9. UPI IDs MANAGEMENT API
+  // ==========================================
+  getUpiIds: async () => {
+    if (!IS_MOCK_MODE) {
+      const { data, error } = await supabase.from('upi_ids').select('*').order('created_at', { ascending: true });
+      if (!error) return data;
+    }
+    let upiIds = getItems('hb_upi_ids');
+    if (!upiIds || upiIds.length === 0) {
+      upiIds = [];
+      setItems('hb_upi_ids', upiIds);
+    }
+    return upiIds;
+  },
+
+  createUpiId: async (upiData) => {
+    if (!IS_MOCK_MODE) {
+      const { data, error } = await supabase.from('upi_ids').insert([upiData]).select();
+      if (error) throw error;
+      return data[0];
+    }
+    const upiIds = getItems('hb_upi_ids') || [];
+    if (upiIds.find(u => u.upi_address.toLowerCase() === upiData.upi_address.toLowerCase())) {
+      throw new Error('UPI ID already exists');
+    }
+    // If marking as default, clear others
+    if (upiData.is_default) {
+      upiIds.forEach(u => u.is_default = false);
+    }
+    const newUpi = {
+      upi_id: crypto.randomUUID(),
+      created_at: new Date().toISOString(),
+      ...upiData
+    };
+    upiIds.push(newUpi);
+    setItems('hb_upi_ids', upiIds);
+    return newUpi;
+  },
+
+  updateUpiId: async (id, upiData) => {
+    if (!IS_MOCK_MODE) {
+      // If setting as default, clear others first
+      if (upiData.is_default) {
+        await supabase.from('upi_ids').update({ is_default: false }).neq('upi_id', id);
+      }
+      const { data, error } = await supabase.from('upi_ids').update(upiData).eq('upi_id', id).select();
+      if (error) throw error;
+      return data[0];
+    }
+    const upiIds = getItems('hb_upi_ids') || [];
+    if (upiData.is_default) {
+      upiIds.forEach(u => u.is_default = false);
+    }
+    const idx = upiIds.findIndex(u => u.upi_id === id);
+    if (idx !== -1) {
+      upiIds[idx] = { ...upiIds[idx], ...upiData };
+      setItems('hb_upi_ids', upiIds);
+      return upiIds[idx];
+    }
+    throw new Error('UPI ID not found');
+  },
+
+  deleteUpiId: async (id) => {
+    if (!IS_MOCK_MODE) {
+      const { error } = await supabase.from('upi_ids').delete().eq('upi_id', id);
+      if (error) throw error;
+      return true;
+    }
+    let upiIds = getItems('hb_upi_ids') || [];
+    upiIds = upiIds.filter(u => u.upi_id !== id);
+    setItems('hb_upi_ids', upiIds);
+    return true;
+  },
+
+  // ==========================================
+  // 10. ORDER UPI TRACKING & REF SEARCH
+  // ==========================================
+  updateOrderUpi: async (orderId, upiAddress) => {
+    if (!IS_MOCK_MODE) {
+      // Check if UPI is locked
+      const { data: orderCheck } = await supabase.from('gift_orders').select('upi_locked').eq('order_id', orderId).single();
+      if (orderCheck?.upi_locked) throw new Error('UPI is locked for this order');
+      
+      const { data, error } = await supabase.from('gift_orders').update({ selected_upi: upiAddress }).eq('order_id', orderId).select();
+      if (error) throw error;
+      return data[0];
+    }
+    const orders = getItems('hb_orders');
+    const idx = orders.findIndex(o => o.order_id === orderId);
+    if (idx !== -1) {
+      if (orders[idx].upi_locked) throw new Error('UPI is locked for this order');
+      orders[idx].selected_upi = upiAddress;
+      orders[idx].updated_at = new Date().toISOString();
+      setItems('hb_orders', orders);
+      return orders[idx];
+    }
+    throw new Error('Order not found');
+  },
+
+  lockOrderUpi: async (orderId, upiAddress) => {
+    if (!IS_MOCK_MODE) {
+      const { data, error } = await supabase.from('gift_orders')
+        .update({ selected_upi: upiAddress, upi_locked: true })
+        .eq('order_id', orderId).select();
+      if (error) throw error;
+      return data[0];
+    }
+    const orders = getItems('hb_orders');
+    const idx = orders.findIndex(o => o.order_id === orderId);
+    if (idx !== -1) {
+      orders[idx].selected_upi = upiAddress;
+      orders[idx].upi_locked = true;
+      orders[idx].updated_at = new Date().toISOString();
+      setItems('hb_orders', orders);
+      return orders[idx];
+    }
+    throw new Error('Order not found');
+  },
+
+  getOrdersByRef: async (refCode) => {
+    // refCode can be full "#HB-XXXXXXXX" or just the partial id
+    const cleanRef = refCode.replace(/^#?HB-?/i, '').trim().toLowerCase();
+    if (!cleanRef) return [];
+
+    if (!IS_MOCK_MODE) {
+      // Search using ILIKE on order_id prefix
+      const { data, error } = await supabase
+        .from('gift_orders')
+        .select(`
+          *,
+          gifts(gift_name, gift_price, gift_image),
+          addresses(*),
+          users(full_name, email, phone_number)
+        `)
+        .ilike('order_id', `${cleanRef}%`)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      return data || [];
+    } else {
+      const orders = getItems('hb_orders');
+      const gifts = getItems('hb_gifts');
+      const addresses = getItems('hb_addresses');
+      const users = getItems('hb_users');
+
+      const detailedOrders = orders.map(o => {
+        const gift = gifts.find(g => g.gift_id === o.gift_id);
+        const addr = addresses.find(a => a.address_id === o.address_id);
+        const usr = users.find(u => u.user_id === o.user_id);
+        
+        return {
+          ...o,
+          gifts: gift ? { gift_name: gift.gift_name, gift_price: gift.gift_price, gift_image: gift.gift_image } : null,
+          addresses: addr || null,
+          users: usr ? { full_name: usr.full_name, email: usr.email, phone_number: usr.phone_number } : null
+        };
+      });
+
+      const filtered = detailedOrders.filter(o => 
+        o.order_id.toLowerCase().startsWith(cleanRef)
+      );
+      return filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    }
   }
 };
 
