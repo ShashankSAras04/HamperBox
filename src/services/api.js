@@ -605,37 +605,42 @@ export const api = {
   },
 
   updateOrderStatus: async (id, status) => {
+    let useFallback = false;
     if (!IS_MOCK_MODE) {
       try {
         const { data, error } = await supabase.from('gift_orders').update({ order_status: status }).eq('order_id', id).select();
         if (error) throw error;
         if (data && data[0]) return data[0];
+        throw new Error('Order not found in database or permission denied');
       } catch (e) {
         if (isSchemaError(e)) {
           console.warn('gift_orders update status fell back to local storage:', e.message || e);
+          useFallback = true;
         } else {
           throw e;
         }
       }
     }
-    const orders = getItems('hb_orders');
-    const idx = orders.findIndex(o => o.order_id === id);
-    if (idx !== -1) {
-      orders[idx].order_status = status;
-      orders[idx].updated_at = new Date().toISOString();
-      setItems('hb_orders', orders);
+    if (IS_MOCK_MODE || useFallback) {
+      const orders = getItems('hb_orders');
+      const idx = orders.findIndex(o => o.order_id === id);
+      if (idx !== -1) {
+        orders[idx].order_status = status;
+        orders[idx].updated_at = new Date().toISOString();
+        setItems('hb_orders', orders);
 
-      // Trigger listener
-      setTimeout(() => {
-        notifyOrderChange({
-          type: 'UPDATE',
-          new: orders[idx]
-        });
-      }, 200);
+        // Trigger listener
+        setTimeout(() => {
+          notifyOrderChange({
+            type: 'UPDATE',
+            new: orders[idx]
+          });
+        }, 200);
 
-      return orders[idx];
+        return orders[idx];
+      }
+      throw new Error('Order not found');
     }
-    throw new Error('Order not found');
   },
 
   // ==========================================
@@ -1104,6 +1109,7 @@ export const api = {
   // 10. ORDER UPI TRACKING & REF SEARCH
   // ==========================================
   updateOrderUpi: async (orderId, upiAddress) => {
+    let useFallback = false;
     if (!IS_MOCK_MODE) {
       try {
         // Check if UPI is locked
@@ -1113,54 +1119,63 @@ export const api = {
         
         const { data, error } = await supabase.from('gift_orders').update({ selected_upi: upiAddress }).eq('order_id', orderId).select();
         if (error) throw error;
-        if (data) return data[0];
+        if (data && data[0]) return data[0];
+        throw new Error('Order not found in database or permission denied');
       } catch (e) {
         if (e.message === 'UPI is locked for this order') throw e;
         if (isSchemaError(e)) {
           console.warn('Order UPI update fell back to local storage:', e.message || e);
+          useFallback = true;
         } else {
           throw e;
         }
       }
     }
-    const orders = getItems('hb_orders');
-    const idx = orders.findIndex(o => o.order_id === orderId);
-    if (idx !== -1) {
-      if (orders[idx].upi_locked) throw new Error('UPI is locked for this order');
-      orders[idx].selected_upi = upiAddress;
-      orders[idx].updated_at = new Date().toISOString();
-      setItems('hb_orders', orders);
-      return orders[idx];
+    if (IS_MOCK_MODE || useFallback) {
+      const orders = getItems('hb_orders');
+      const idx = orders.findIndex(o => o.order_id === orderId);
+      if (idx !== -1) {
+        if (orders[idx].upi_locked) throw new Error('UPI is locked for this order');
+        orders[idx].selected_upi = upiAddress;
+        orders[idx].updated_at = new Date().toISOString();
+        setItems('hb_orders', orders);
+        return orders[idx];
+      }
+      throw new Error('Order not found');
     }
-    throw new Error('Order not found');
   },
 
   lockOrderUpi: async (orderId, upiAddress) => {
+    let useFallback = false;
     if (!IS_MOCK_MODE) {
       try {
         const { data, error } = await supabase.from('gift_orders')
           .update({ selected_upi: upiAddress, upi_locked: true })
           .eq('order_id', orderId).select();
         if (error) throw error;
-        if (data) return data[0];
+        if (data && data[0]) return data[0];
+        throw new Error('Order not found in database or permission denied');
       } catch (e) {
         if (isSchemaError(e)) {
           console.warn('Order UPI lock fell back to local storage:', e.message || e);
+          useFallback = true;
         } else {
           throw e;
         }
       }
     }
-    const orders = getItems('hb_orders');
-    const idx = orders.findIndex(o => o.order_id === orderId);
-    if (idx !== -1) {
-      orders[idx].selected_upi = upiAddress;
-      orders[idx].upi_locked = true;
-      orders[idx].updated_at = new Date().toISOString();
-      setItems('hb_orders', orders);
-      return orders[idx];
+    if (IS_MOCK_MODE || useFallback) {
+      const orders = getItems('hb_orders');
+      const idx = orders.findIndex(o => o.order_id === orderId);
+      if (idx !== -1) {
+        orders[idx].selected_upi = upiAddress;
+        orders[idx].upi_locked = true;
+        orders[idx].updated_at = new Date().toISOString();
+        setItems('hb_orders', orders);
+        return orders[idx];
+      }
+      throw new Error('Order not found');
     }
-    throw new Error('Order not found');
   },
 
   getOrdersByRef: async (refCode) => {
