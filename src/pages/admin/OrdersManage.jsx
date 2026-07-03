@@ -209,6 +209,13 @@ Once the payment is done, please reply to this message with a screenshot of the 
     const orderRef = `#HB-${order.order_id.substring(0, 8).toUpperCase()}`;
     const orderUpi = order.selected_upi || 'N/A';
     
+    // Temporarily disable dark mode at root to avoid parent styles forcing white text
+    const root = window.document.documentElement;
+    const isDark = root.classList.contains('dark');
+    if (isDark) {
+      root.classList.remove('dark');
+    }
+    
     const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -344,9 +351,9 @@ Once the payment is done, please reply to this message with a screenshot of the 
     }
     
     .total-box { 
-      float: right !important; 
-      width: 280px !important; 
-      margin-top: 5px !important; 
+      float: right; 
+      width: 280px; 
+      margin-top: 5px; 
       clear: both !important;
     }
     .total-row { 
@@ -544,6 +551,11 @@ Once the payment is done, please reply to this message with a screenshot of the 
     } catch (err) {
       console.error('PDF generation failed:', err);
       toast.error(err.message || 'Failed to generate PDF');
+    } finally {
+      // Restore dark mode at root if it was active
+      if (isDark) {
+        root.classList.add('dark');
+      }
     }
   };
 
