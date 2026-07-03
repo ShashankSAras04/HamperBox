@@ -2,7 +2,7 @@ import { supabase, supabaseAdmin } from './supabase';
 
 const IS_MOCK_MODE = !import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL.includes('your-project-ref');
 
-// Helper to check if database error is schema/table-not-found/cache related
+// Helper to check if database error is schema/table-not-found/cache or permission/RLS related
 const isSchemaError = (err) => {
   if (!err) return false;
   const msg = (err.message || err.toString() || JSON.stringify(err) || '').toLowerCase();
@@ -12,8 +12,11 @@ const isSchemaError = (err) => {
          msg.includes('does not exist') || 
          msg.includes('exist') || 
          msg.includes('cache') ||
+         msg.includes('row-level security') ||
+         msg.includes('security policy') ||
          code.includes('pgrst116') ||
-         code.includes('pgrst204'); // PostgREST codes for missing tables/columns
+         code.includes('pgrst204') ||
+         code.includes('42501'); // PostgREST code for RLS/permission violation
 };
 
 // Helper to load seed data into LocalStorage if not present
