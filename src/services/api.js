@@ -2,6 +2,20 @@ import { supabase, supabaseAdmin } from './supabase';
 
 const IS_MOCK_MODE = !import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL.includes('your-project-ref');
 
+// Helper to check if database error is schema/table-not-found/cache related
+const isSchemaError = (err) => {
+  if (!err) return false;
+  const msg = (err.message || err.toString() || JSON.stringify(err) || '').toLowerCase();
+  const code = (err.code || '').toLowerCase();
+  return msg.includes('schema') || 
+         msg.includes('relation') || 
+         msg.includes('does not exist') || 
+         msg.includes('exist') || 
+         msg.includes('cache') ||
+         code.includes('pgrst116') ||
+         code.includes('pgrst204'); // PostgREST codes for missing tables/columns
+};
+
 // Helper to load seed data into LocalStorage if not present
 const initMockDB = () => {
   if (!localStorage.getItem('hb_categories')) {
@@ -847,8 +861,8 @@ export const api = {
         if (error) throw error;
         if (data) return data;
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('coupons table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('coupons table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -878,8 +892,8 @@ export const api = {
         if (error) throw error;
         if (data) return data[0];
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('coupons table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('coupons table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -904,8 +918,8 @@ export const api = {
         if (error) throw error;
         if (data) return data[0];
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('coupons table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('coupons table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -929,8 +943,8 @@ export const api = {
         if (error) throw error;
         return true;
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('coupons table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('coupons table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -955,8 +969,8 @@ export const api = {
         if (error) throw error;
         if (data) return data;
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('coupons table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('coupons table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -977,8 +991,8 @@ export const api = {
         if (error) throw error;
         if (data) return data;
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('upi_ids table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('upi_ids table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -999,8 +1013,8 @@ export const api = {
         if (error) throw error;
         if (data) return data[0];
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('upi_ids table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('upi_ids table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -1035,8 +1049,8 @@ export const api = {
         if (error) throw error;
         if (data) return data[0];
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('upi_ids table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('upi_ids table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -1062,8 +1076,8 @@ export const api = {
         if (error) throw error;
         return true;
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('upi_ids table not found, falling back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('upi_ids table not found, falling back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -1091,8 +1105,8 @@ export const api = {
         if (data) return data[0];
       } catch (e) {
         if (e.message === 'UPI is locked for this order') throw e;
-        if (e.message?.includes('schema') || e.message?.includes('column') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('Order UPI update fell back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('Order UPI update fell back to local storage:', e.message || e);
         } else {
           throw e;
         }
@@ -1119,8 +1133,8 @@ export const api = {
         if (error) throw error;
         if (data) return data[0];
       } catch (e) {
-        if (e.message?.includes('schema') || e.message?.includes('column') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
-          console.warn('Order UPI lock fell back to local storage:', e.message);
+        if (isSchemaError(e)) {
+          console.warn('Order UPI lock fell back to local storage:', e.message || e);
         } else {
           throw e;
         }
