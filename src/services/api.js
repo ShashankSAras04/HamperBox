@@ -2,21 +2,10 @@ import { supabase, supabaseAdmin } from './supabase';
 
 const IS_MOCK_MODE = !import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL.includes('your-project-ref');
 
-// Helper to check if database error is schema/table-not-found/cache or permission/RLS related
 const isSchemaError = (err) => {
   if (!err) return false;
   const msg = (err.message || err.toString() || JSON.stringify(err) || '').toLowerCase();
-  const code = (err.code || '').toLowerCase();
-  return msg.includes('schema') || 
-         msg.includes('relation') || 
-         msg.includes('does not exist') || 
-         msg.includes('exist') || 
-         msg.includes('cache') ||
-         msg.includes('row-level security') ||
-         msg.includes('security policy') ||
-         code.includes('pgrst116') ||
-         code.includes('pgrst204') ||
-         code.includes('42501'); // PostgREST code for RLS/permission violation
+  return msg.includes('relation') && msg.includes('does not exist');
 };
 
 // Helper to load seed data into LocalStorage if not present
@@ -451,42 +440,55 @@ export const api = {
   // 4. ORDERS & CHECKOUT API
   // ==========================================
   getOrders: async (userId = null) => {
+    let useFallback = false;
     if (!IS_MOCK_MODE) {
-      let query = supabase.from('gift_orders').select(`
-        *,
-        gifts(gift_name, gift_price, gift_image),
-        addresses(*),
-        users(full_name, email, phone_number)
-      `).order('created_at', { ascending: false });
-      
-      if (userId) {
-        query = query.eq('user_id', userId);
+      try {
+        let query = supabase.from('gift_orders').select(`
+          *,
+          gifts(gift_name, gift_price, gift_image),
+          addresses(*),
+          users(full_name, email, phone_number)
+        `).order('created_at', { ascending: false });
+        
+        if (userId) {
+          query = query.eq('user_id', userId);
+        }
+        
+        const { data, error } = await query;
+        if (error) throw error;
+        return data;
+      } catch (e) {
+        if (isSchemaError(e)) {
+          console.warn('gift_orders table not found, falling back to local storage:', e.message || e);
+          useFallback = true;
+        } else {
+          throw e;
+        }
       }
-      
-      const { data, error } = await query;
-      if (!error) return data;
     }
 
-    const orders = getItems('hb_orders');
-    const gifts = getItems('hb_gifts');
-    const addresses = getItems('hb_addresses');
-    const users = getItems('hb_users');
+    if (IS_MOCK_MODE || useFallback) {
+      const orders = getItems('hb_orders');
+      const gifts = getItems('hb_gifts');
+      const addresses = getItems('hb_addresses');
+      const users = getItems('hb_users');
 
-    const detailedOrders = orders.map(o => {
-      const gift = gifts.find(g => g.gift_id === o.gift_id);
-      const addr = addresses.find(a => a.address_id === o.address_id);
-      const usr = users.find(u => u.user_id === o.user_id);
-      
-      return {
-        ...o,
-        gifts: gift ? { gift_name: gift.gift_name, gift_price: gift.gift_price, gift_image: gift.gift_image } : null,
-        addresses: addr || null,
-        users: usr ? { full_name: usr.full_name, email: usr.email, phone_number: usr.phone_number } : null
-      };
-    });
+      const detailedOrders = orders.map(o => {
+        const gift = gifts.find(g => g.gift_id === o.gift_id);
+        const addr = addresses.find(a => a.address_id === o.address_id);
+        const usr = users.find(u => u.user_id === o.user_id);
+        
+        return {
+          ...o,
+          gifts: gift ? { gift_name: gift.gift_name, gift_price: gift.gift_price, gift_image: gift.gift_image } : null,
+          addresses: addr || null,
+          users: usr ? { full_name: usr.full_name, email: usr.email, phone_number: usr.phone_number } : null
+        };
+      });
 
-    const filtered = userId ? detailedOrders.filter(o => o.user_id === userId) : detailedOrders;
-    return filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      const filtered = userId ? detailedOrders.filter(o => o.user_id === userId) : detailedOrders;
+      return filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    }
   },
 
   getOrdersByPhone: async (phone) => {
