@@ -84,22 +84,9 @@ export const OrdersManage = () => {
     }
   };
 
-  // Convert logo to base64 for PDF embedding
+  // Convert logo to base64 for PDF embedding (changed to return path directly to avoid CORS hangs)
   const getLogoBase64 = () => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL('image/png'));
-      };
-      img.onerror = () => resolve('');
-      img.src = logoImg;
-    });
+    return logoImg;
   };
 
   // Open UPI selection modal before WhatsApp or Mark Paid
@@ -367,7 +354,8 @@ Once the payment is done, please reply to this message with a screenshot of the 
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      await html2pdf().set(opt).from(container).save();
+      const exporter = html2pdf.default || html2pdf;
+      await exporter().set(opt).from(container).save();
       toast.success('Invoice PDF generated successfully!');
     } catch (err) {
       console.error('PDF generation failed:', err);

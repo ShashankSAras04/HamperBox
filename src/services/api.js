@@ -837,12 +837,22 @@ export const api = {
   },
 
   // ==========================================
+  // ==========================================
   // 8. COUPONS & PROMOCODES API
   // ==========================================
   getCoupons: async () => {
     if (!IS_MOCK_MODE) {
-      const { data, error } = await supabase.from('coupons').select('*').order('created_at', { ascending: false });
-      if (!error) return data;
+      try {
+        const { data, error } = await supabase.from('coupons').select('*').order('created_at', { ascending: false });
+        if (error) throw error;
+        if (data) return data;
+      } catch (e) {
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('coupons table not found, falling back to local storage:', e.message);
+        } else {
+          throw e;
+        }
+      }
     }
     
     let coupons = getItems('hb_coupons');
@@ -863,9 +873,17 @@ export const api = {
 
   createCoupon: async (coupon) => {
     if (!IS_MOCK_MODE) {
-      const { data, error } = await supabase.from('coupons').insert([coupon]).select();
-      if (error) throw error;
-      return data[0];
+      try {
+        const { data, error } = await supabase.from('coupons').insert([coupon]).select();
+        if (error) throw error;
+        if (data) return data[0];
+      } catch (e) {
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('coupons table not found, falling back to local storage:', e.message);
+        } else {
+          throw e;
+        }
+      }
     }
     
     const coupons = getItems('hb_coupons') || [];
@@ -881,9 +899,17 @@ export const api = {
 
   updateCoupon: async (id, couponData) => {
     if (!IS_MOCK_MODE) {
-      const { data, error } = await supabase.from('coupons').update(couponData).eq('coupon_id', id).select();
-      if (error) throw error;
-      return data[0];
+      try {
+        const { data, error } = await supabase.from('coupons').update(couponData).eq('coupon_id', id).select();
+        if (error) throw error;
+        if (data) return data[0];
+      } catch (e) {
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('coupons table not found, falling back to local storage:', e.message);
+        } else {
+          throw e;
+        }
+      }
     }
     
     const coupons = getItems('hb_coupons') || [];
@@ -898,9 +924,17 @@ export const api = {
 
   deleteCoupon: async (id) => {
     if (!IS_MOCK_MODE) {
-      const { error } = await supabase.from('coupons').delete().eq('coupon_id', id);
-      if (error) throw error;
-      return true;
+      try {
+        const { error } = await supabase.from('coupons').delete().eq('coupon_id', id);
+        if (error) throw error;
+        return true;
+      } catch (e) {
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('coupons table not found, falling back to local storage:', e.message);
+        } else {
+          throw e;
+        }
+      }
     }
     
     let coupons = getItems('hb_coupons') || [];
@@ -911,14 +945,22 @@ export const api = {
 
   validateCoupon: async (code) => {
     if (!IS_MOCK_MODE) {
-      const { data, error } = await supabase
-        .from('coupons')
-        .select('*')
-        .eq('code', code.toUpperCase())
-        .eq('is_active', true)
-        .maybeSingle();
-      if (!error && data) return data;
-      return null;
+      try {
+        const { data, error } = await supabase
+          .from('coupons')
+          .select('*')
+          .eq('code', code.toUpperCase())
+          .eq('is_active', true)
+          .maybeSingle();
+        if (error) throw error;
+        if (data) return data;
+      } catch (e) {
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('coupons table not found, falling back to local storage:', e.message);
+        } else {
+          throw e;
+        }
+      }
     }
     
     const coupons = getItems('hb_coupons') || [];
@@ -932,9 +974,14 @@ export const api = {
     if (!IS_MOCK_MODE) {
       try {
         const { data, error } = await supabase.from('upi_ids').select('*').order('created_at', { ascending: true });
-        if (!error && data) return data;
+        if (error) throw error;
+        if (data) return data;
       } catch (e) {
-        console.warn('upi_ids table not found, falling back to local storage:', e.message);
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('upi_ids table not found, falling back to local storage:', e.message);
+        } else {
+          throw e;
+        }
       }
     }
     let upiIds = getItems('hb_upi_ids');
@@ -949,12 +996,11 @@ export const api = {
     if (!IS_MOCK_MODE) {
       try {
         const { data, error } = await supabase.from('upi_ids').insert([upiData]).select();
-        if (!error && data) return data[0];
-        // If table doesn't exist, fall through to local storage
-        if (error && !error.message?.includes('schema')) throw error;
+        if (error) throw error;
+        if (data) return data[0];
       } catch (e) {
-        if (e.message?.includes('schema')) {
-          console.warn('upi_ids table not found, using local storage');
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('upi_ids table not found, falling back to local storage:', e.message);
         } else {
           throw e;
         }
@@ -986,11 +1032,11 @@ export const api = {
           await supabase.from('upi_ids').update({ is_default: false }).neq('upi_id', id);
         }
         const { data, error } = await supabase.from('upi_ids').update(upiData).eq('upi_id', id).select();
-        if (!error && data) return data[0];
-        if (error && !error.message?.includes('schema')) throw error;
+        if (error) throw error;
+        if (data) return data[0];
       } catch (e) {
-        if (e.message?.includes('schema')) {
-          console.warn('upi_ids table not found, using local storage');
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('upi_ids table not found, falling back to local storage:', e.message);
         } else {
           throw e;
         }
@@ -1013,11 +1059,11 @@ export const api = {
     if (!IS_MOCK_MODE) {
       try {
         const { error } = await supabase.from('upi_ids').delete().eq('upi_id', id);
-        if (!error) return true;
-        if (error && !error.message?.includes('schema')) throw error;
+        if (error) throw error;
+        return true;
       } catch (e) {
-        if (e.message?.includes('schema')) {
-          console.warn('upi_ids table not found, using local storage');
+        if (e.message?.includes('schema') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('upi_ids table not found, falling back to local storage:', e.message);
         } else {
           throw e;
         }
@@ -1036,16 +1082,20 @@ export const api = {
     if (!IS_MOCK_MODE) {
       try {
         // Check if UPI is locked
-        const { data: orderCheck } = await supabase.from('gift_orders').select('upi_locked').eq('order_id', orderId).single();
+        const { data: orderCheck, error: checkError } = await supabase.from('gift_orders').select('upi_locked').eq('order_id', orderId).single();
+        if (checkError) throw checkError;
         if (orderCheck?.upi_locked) throw new Error('UPI is locked for this order');
         
         const { data, error } = await supabase.from('gift_orders').update({ selected_upi: upiAddress }).eq('order_id', orderId).select();
-        if (!error && data) return data[0];
-        // If columns don't exist yet, fall through to local storage
-        if (error && !error.message?.includes('schema') && !error.message?.includes('column')) throw error;
+        if (error) throw error;
+        if (data) return data[0];
       } catch (e) {
         if (e.message === 'UPI is locked for this order') throw e;
-        console.warn('Order UPI update fell back to local storage:', e.message);
+        if (e.message?.includes('schema') || e.message?.includes('column') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('Order UPI update fell back to local storage:', e.message);
+        } else {
+          throw e;
+        }
       }
     }
     const orders = getItems('hb_orders');
@@ -1066,11 +1116,14 @@ export const api = {
         const { data, error } = await supabase.from('gift_orders')
           .update({ selected_upi: upiAddress, upi_locked: true })
           .eq('order_id', orderId).select();
-        if (!error && data) return data[0];
-        // If columns don't exist yet, fall through to local storage
-        if (error && !error.message?.includes('schema') && !error.message?.includes('column')) throw error;
+        if (error) throw error;
+        if (data) return data[0];
       } catch (e) {
-        console.warn('Order UPI lock fell back to local storage:', e.message);
+        if (e.message?.includes('schema') || e.message?.includes('column') || e.message?.includes('relation') || e.message?.includes('does not exist')) {
+          console.warn('Order UPI lock fell back to local storage:', e.message);
+        } else {
+          throw e;
+        }
       }
     }
     const orders = getItems('hb_orders');
