@@ -356,7 +356,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
     <div class="content">
       
       <!-- Header Table -->
-      <table class="header-table" style="width: 100% !important; border-bottom: 2px solid #8B5CF6 !important; padding-bottom: 15px !important; margin-bottom: 25px !important; border-collapse: collapse !important;">
+      <table class="header-table" style="width: 100% !important; table-layout: fixed !important; border-bottom: 2px solid #8B5CF6 !important; padding-bottom: 15px !important; margin-bottom: 25px !important; border-collapse: collapse !important;">
         <tr>
           <td style="width: 50% !important; padding: 0 !important; vertical-align: top !important; text-align: left !important;">
             <div class="logo">HampBox</div>
@@ -370,7 +370,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
       </table>
 
       <!-- Details Table -->
-      <table class="details-table" style="width: 100% !important; margin-bottom: 25px !important; border-collapse: collapse !important;">
+      <table class="details-table" style="width: 100% !important; table-layout: fixed !important; margin-bottom: 25px !important; border-collapse: collapse !important;">
         <tr>
           <td style="width: 48% !important; padding: 0 !important; vertical-align: top !important;">
             <h3>Order Information</h3>
@@ -400,44 +400,44 @@ Once the payment is done, please reply to this message with a screenshot of the 
       </table>
 
       <!-- Products Table -->
-      <table class="table">
+      <table class="table" style="width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important; margin-bottom: 25px !important;">
         <thead>
           <tr>
-            <th style="padding: 10px 14px !important; text-align: left !important;">Luxury Hamper Description</th>
-            <th style="padding: 10px 14px !important; text-align: right !important;">Unit Price</th>
-            <th style="padding: 10px 14px !important; text-align: center !important;">Quantity</th>
-            <th style="padding: 10px 14px !important; text-align: right !important;">Total Amount</th>
+            <th style="width: 50% !important; padding: 10px 14px !important; text-align: left !important;">Luxury Hamper Description</th>
+            <th style="width: 20% !important; padding: 10px 14px !important; text-align: right !important;">Unit Price</th>
+            <th style="width: 10% !important; padding: 10px 14px !important; text-align: center !important;">Quantity</th>
+            <th style="width: 20% !important; padding: 10px 14px !important; text-align: right !important;">Total Amount</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="padding: 10px 14px !important; text-align: left !important;"><strong>${order.gifts?.gift_name || 'Gift Hamper'}</strong></td>
-            <td style="padding: 10px 14px !important; text-align: right !important;">${showPrice ? `₹${parseFloat(order.gifts?.gift_price || 0).toLocaleString('en-IN')}` : 'On Request'}</td>
-            <td style="padding: 10px 14px !important; text-align: center !important;">${order.quantity}</td>
-            <td style="padding: 10px 14px !important; text-align: right !important;">${showPrice ? `₹${parseFloat(order.total_amount).toLocaleString('en-IN')}` : 'On Request'}</td>
+            <td style="width: 50% !important; padding: 10px 14px !important; text-align: left !important; vertical-align: middle !important;"><strong>${order.gifts?.gift_name || 'Gift Hamper'}</strong></td>
+            <td style="width: 20% !important; padding: 10px 14px !important; text-align: right !important; vertical-align: middle !important;">${showPrice ? `₹${parseFloat(order.gifts?.gift_price || 0).toLocaleString('en-IN')}` : 'On Request'}</td>
+            <td style="width: 10% !important; padding: 10px 14px !important; text-align: center !important; vertical-align: middle !important;">${order.quantity}</td>
+            <td style="width: 20% !important; padding: 10px 14px !important; text-align: right !important; vertical-align: middle !important;">${showPrice ? `₹${parseFloat(order.total_amount).toLocaleString('en-IN')}` : 'On Request'}</td>
           </tr>
         </tbody>
       </table>
 
       <!-- Totals Wrapping Table -->
-      <table style="width: 100% !important; border-collapse: collapse !important; margin-top: 5px !important;">
+      <table style="width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important; margin-top: 5px !important;">
         <tr>
           <td style="width: 60% !important; padding: 0 !important;"></td>
           <td style="width: 40% !important; padding: 0 !important; vertical-align: top !important;">
             ${showPrice ? `
-            <table style="width: 100% !important; border-collapse: collapse !important;">
+            <table style="width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important;">
               <tr>
-                <td style="text-align: left !important; padding: 4px 0 !important; font-size: 13px !important;">Subtotal:</td>
-                <td style="text-align: right !important; padding: 4px 0 !important; font-size: 13px !important;">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</td>
+                <td style="width: 50% !important; text-align: left !important; padding: 4px 0 !important; font-size: 13px !important;">Subtotal:</td>
+                <td style="width: 50% !important; text-align: right !important; padding: 4px 0 !important; font-size: 13px !important;">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</td>
               </tr>
               <tr>
-                <td style="text-align: left !important; padding: 8px 0 !important; font-size: 15px !important; font-weight: bold !important; color: #8B5CF6 !important; border-top: 2px solid #8B5CF6 !important;">${isPaid ? 'Total Paid:' : 'Total Due:'}</td>
-                <td style="text-align: right !important; padding: 8px 0 !important; font-size: 15px !important; font-weight: bold !important; color: #8B5CF6 !important; border-top: 2px solid #8B5CF6 !important;">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</td>
+                <td style="width: 50% !important; text-align: left !important; padding: 8px 0 !important; font-size: 15px !important; font-weight: bold !important; color: #8B5CF6 !important; border-top: 2px solid #8B5CF6 !important;">${isPaid ? 'Total Paid:' : 'Total Due:'}</td>
+                <td style="width: 50% !important; text-align: right !important; padding: 8px 0 !important; font-size: 15px !important; font-weight: bold !important; color: #8B5CF6 !important; border-top: 2px solid #8B5CF6 !important;">₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</td>
               </tr>
             </table>
             ${!isPaid ? `<div style="text-align: center; margin-top: 12px;"><span class="badge unpaid" style="font-size: 11px; padding: 5px 12px;">⚠ NOT PAID</span></div>` : ''}
             ` : `
-            <table style="width: 100% !important; border-collapse: collapse !important;">
+            <table style="width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important;">
               <tr>
                 <td style="font-size: 11px; text-transform: none; color: #8B5CF6 !important; border-top: 2px solid #8B5CF6 !important; padding-top: 10px; text-align: right !important;">
                   Once ordered, the HampBox team will contact you with order details.
