@@ -209,9 +209,6 @@ Once the payment is done, please reply to this message with a screenshot of the 
     const orderRef = `#HB-${order.order_id.substring(0, 8).toUpperCase()}`;
     const orderUpi = order.selected_upi || 'N/A';
     
-    // Get logo as base64 for embedding
-    const logoBase64 = await getLogoBase64();
-    
     const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -242,21 +239,6 @@ Once the payment is done, please reply to this message with a screenshot of the 
       justify-content: space-between;
     }
     
-    .watermark { 
-      position: absolute; 
-      top: 50%; 
-      left: 50%; 
-      transform: translate(-50%, -50%); 
-      opacity: 0.03; 
-      z-index: 0; 
-      pointer-events: none; 
-    }
-    .watermark img { 
-      width: 320px; 
-      height: 320px; 
-      object-fit: contain; 
-    }
-    
     .content { 
       position: relative; 
       z-index: 1; 
@@ -271,9 +253,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
       padding-bottom: 15px; 
       margin-bottom: 25px; 
     }
-    .header-left { display: flex; align-items: center; gap: 12px; }
-    .header-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 8px; }
-    .logo { font-size: 26px; font-weight: 800; color: #8B5CF6; letter-spacing: -0.05em; font-family: 'Georgia', serif; }
+    .logo { font-size: 28px; font-weight: 800; color: #8B5CF6; letter-spacing: -0.05em; font-family: 'Georgia', serif; }
     .title { font-size: 18px; font-weight: bold; color: #334155; }
     
     .details { 
@@ -327,17 +307,11 @@ Once the payment is done, please reply to this message with a screenshot of the 
 </head>
 <body>
   <div class="invoice-container" id="invoice-print-container">
-    <!-- Watermark -->
-    ${logoBase64 ? `<div class="watermark"><img src="${logoBase64}" alt="Watermark" /></div>` : ''}
-    
     <div class="content">
       <div class="header">
-        <div class="header-left">
-          ${logoBase64 ? `<img src="${logoBase64}" alt="HampBox Logo" class="header-logo" />` : ''}
-          <div>
-            <div class="logo">HampBox</div>
-            <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b; font-weight: 550;">Premium Gifting Platform</p>
-          </div>
+        <div>
+          <div class="logo">HampBox</div>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b; font-weight: 550;">Premium Gifting Platform</p>
         </div>
         <div style="text-align: right;">
           <div class="title">OFFICIAL INVOICE</div>
@@ -359,7 +333,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
             <span class="badge unpaid">Contact for Price</span>
             `}
           </p>
-          ${showPrice && orderUpi !== 'N/A' ? `<p><strong>Associated UPI ID:</strong> ${orderUpi}</p>` : ''}
+          ${showPrice && orderUpi !== 'N/A' ? `<p><strong>UPI ID (Payment):</strong> ${orderUpi}</p>` : ''}
         </div>
         <div>
           <h3>Recipient Shipping Details</h3>
