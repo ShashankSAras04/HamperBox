@@ -221,7 +221,7 @@ export const GiftItemsManage = () => {
           </div>
 
           {/* Search bar */}
-          <div className="relative w-full md:max-w-xs flex items-center border border-slate-105 dark:border-slate-800 bg-slate-50 dark:bg-slate-955 px-3 py-2 rounded-xl md:ml-auto">
+          <div className="relative w-full md:max-w-xs flex items-center border border-slate-105 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded-xl md:ml-auto">
             <Search className="w-4.5 h-4.5 text-slate-400 mr-2 flex-shrink-0" />
             <input
               type="text"
@@ -298,7 +298,7 @@ export const GiftItemsManage = () => {
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white font-serif">
                   {currentItem ? 'Edit Box Content' : 'Link Item to Box'}
                 </h3>
-                <button onClick={handleCloseModal} className="p-1 rounded-full text-slate-400 hover:bg-slate-105 dark:hover:bg-slate-800">
+                <button onClick={handleCloseModal} className="p-1 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -311,7 +311,7 @@ export const GiftItemsManage = () => {
                       name="gift_id"
                       value={formData.gift_id}
                       onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-55 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="w-full px-3.5 py-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                     >
                       {gifts.map((g) => (
                         <option key={g.gift_id} value={g.gift_id}>{g.gift_name}</option>
@@ -335,7 +335,7 @@ export const GiftItemsManage = () => {
                           item_description: matchingItem?.gift_description || prev.item_description
                         }));
                       }}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                     >
                       <option value="" disabled>Select a gift item</option>
                       {libraryItems.map((li) => (
@@ -351,7 +351,7 @@ export const GiftItemsManage = () => {
                       name="quantity"
                       value={formData.quantity}
                       onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                     />
                   </div>
                 </div>
@@ -363,7 +363,7 @@ export const GiftItemsManage = () => {
                     name="item_description"
                     value={formData.item_description}
                     onChange={handleInputChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                     placeholder="E.g. 150g jar, Lavender flavor"
                   />
                 </div>
@@ -372,7 +372,7 @@ export const GiftItemsManage = () => {
                   <button
                     type="button"
                     onClick={handleCloseModal}
-                    className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-350 hover:bg-slate-55"
+                    className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-350 hover:bg-slate-100"
                   >
                     Cancel
                   </button>

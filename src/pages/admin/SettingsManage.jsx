@@ -275,7 +275,7 @@ export const SettingsManage = () => {
 
   if (authLoading || !user || !user.is_admin) {
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-slate-955">
+      <div className="min-h-screen flex items-center justify-center dark:bg-slate-900">
         <div className="w-8 h-8 border-4 border-slate-200 border-t-primary rounded-full animate-spin" />
       </div>
     );
@@ -365,7 +365,7 @@ export const SettingsManage = () => {
                   name="whatsapp_number"
                   value={settings.whatsapp_number}
                   onChange={handleSettingsChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                   placeholder="+919620000000"
                 />
                 <p className="text-[9px] text-slate-400 italic">This number will receive customer WhatsApp messages and Payment Requests.</p>
@@ -381,7 +381,7 @@ export const SettingsManage = () => {
                   name="instagram_url"
                   value={settings.instagram_url}
                   onChange={handleSettingsChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                   placeholder="https://instagram.com/your-brand"
                 />
               </div>
@@ -396,7 +396,7 @@ export const SettingsManage = () => {
                   name="facebook_url"
                   value={settings.facebook_url}
                   onChange={handleSettingsChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                   placeholder="https://facebook.com/your-brand"
                 />
               </div>
@@ -446,7 +446,7 @@ export const SettingsManage = () => {
                   </thead>
                   <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50 text-slate-655 dark:text-slate-350">
                     {upiIds.map((u) => (
-                      <tr key={u.upi_id} className="hover:bg-slate-55/50 dark:hover:bg-slate-850/30">
+                      <tr key={u.upi_id} className="hover:bg-slate-100/50 dark:hover:bg-slate-850/30">
                         <td className="py-4 px-4 font-bold font-serif text-slate-850 dark:text-white tracking-wider flex items-center space-x-2">
                           <CreditCard className="w-4 h-4 text-primary" />
                           <span>{u.upi_address}</span>
@@ -511,7 +511,7 @@ export const SettingsManage = () => {
                     name="layout_position"
                     value={newBanner.layout_position}
                     onChange={(e) => setNewBanner(prev => ({ ...prev, layout_position: e.target.value }))}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                   >
                     <option value="hero">Hero Slider (Fixed: 1920 x 800 px)</option>
                     <option value="promo">Promo Grid (Fixed: 1200 x 300 px)</option>
@@ -526,7 +526,7 @@ export const SettingsManage = () => {
                     type="text"
                     value={newBanner.link_url}
                     onChange={(e) => setNewBanner(prev => ({ ...prev, link_url: e.target.value }))}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                     placeholder="/gifts?category=corporate"
                   />
                 </div>
@@ -628,7 +628,7 @@ export const SettingsManage = () => {
                   </thead>
                   <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50 text-slate-655 dark:text-slate-350">
                     {coupons.map((c) => (
-                      <tr key={c.coupon_id} className="hover:bg-slate-55/50 dark:hover:bg-slate-850/30">
+                      <tr key={c.coupon_id} className="hover:bg-slate-100/50 dark:hover:bg-slate-850/30">
                         <td className="py-4 px-4 font-bold font-serif text-slate-850 dark:text-white tracking-wider flex items-center space-x-2">
                           <Tag className="w-4 h-4 text-primary" />
                           <span>{c.code}</span>
@@ -702,7 +702,7 @@ export const SettingsManage = () => {
                   name="code"
                   value={couponForm.code}
                   onChange={handleCouponChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white uppercase focus:outline-none focus:border-primary"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white uppercase focus:outline-none focus:border-primary"
                   placeholder="FESTIVE50"
                   required
                 />
@@ -715,7 +715,7 @@ export const SettingsManage = () => {
                     name="discount_type"
                     value={couponForm.discount_type}
                     onChange={handleCouponChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                   >
                     <option value="percentage">Percentage (%)</option>
                     <option value="fixed">Fixed Amount (₹)</option>
@@ -729,7 +729,7 @@ export const SettingsManage = () => {
                     name="discount_value"
                     value={couponForm.discount_value}
                     onChange={handleCouponChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                     placeholder="15"
                     min="1"
                     required
@@ -794,7 +794,7 @@ export const SettingsManage = () => {
                   name="upi_address"
                   value={upiForm.upi_address}
                   onChange={handleUpiChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                   placeholder="yourname@upi"
                   required
                 />
@@ -808,7 +808,7 @@ export const SettingsManage = () => {
                   name="label"
                   value={upiForm.label}
                   onChange={handleUpiChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary"
                   placeholder="Business Account, Personal, etc."
                 />
               </div>

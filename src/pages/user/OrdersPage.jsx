@@ -144,7 +144,7 @@ export const OrdersPage = () => {
         {/* Search Bar Container */}
         <form onSubmit={handleSearch} className="bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 p-6 rounded-3xl shadow-sm mb-10 flex flex-col sm:flex-row gap-4 items-center">
           {searchMode === 'phone' ? (
-            <div className="relative flex-grow w-full flex items-center border border-slate-100 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-955 px-4 py-3 rounded-2xl">
+            <div className="relative flex-grow w-full flex items-center border border-slate-100 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-900 px-4 py-3 rounded-2xl">
               <Phone className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0" />
               <input
                 type="tel"
@@ -155,7 +155,7 @@ export const OrdersPage = () => {
               />
             </div>
           ) : (
-            <div className="relative flex-grow w-full flex items-center border border-slate-100 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-955 px-4 py-3 rounded-2xl">
+            <div className="relative flex-grow w-full flex items-center border border-slate-100 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-900 px-4 py-3 rounded-2xl">
               <Hash className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0" />
               <input
                 type="text"
@@ -258,7 +258,7 @@ export const OrdersPage = () => {
                       </div>
 
                       {/* Recipient Details */}
-                      <div className="md:col-span-6 space-y-2 bg-slate-50 dark:bg-slate-955 p-4 rounded-2xl border border-slate-200/40 dark:border-slate-850/60">
+                      <div className="md:col-span-6 space-y-2 bg-slate-50 dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/40 dark:border-slate-850/60">
                         <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider flex items-center">
                           <MapPin className="w-3.5 h-3.5 mr-1 text-slate-400" />
                           <span>Recipient Address</span>
@@ -311,7 +311,7 @@ export const OrdersPage = () => {
                     </div>
 
                     {order.order_status === 'Pending' && (
-                      <div className="p-4 bg-amber-50 dark:bg-amber-955/25 border border-amber-250 dark:border-amber-900 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
+                      <div className="p-4 bg-amber-50 dark:bg-amber-950/25 border border-amber-250 dark:border-amber-900 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
                         <div className="space-y-1 text-center sm:text-left">
                           <p className="text-xs font-bold text-amber-800 dark:text-amber-400">Order is pending payment verification</p>
                           <p className="text-[10px] text-slate-500 dark:text-slate-400">Contact the HamperBox team to finalize your payment details and confirm shipping.</p>

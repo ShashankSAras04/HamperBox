@@ -423,7 +423,7 @@ export const CheckoutPage = () => {
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
                       disabled={appliedCoupon !== null}
-                      className="flex-grow px-3 py-2 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white uppercase placeholder:normal-case focus:outline-none focus:border-primary disabled:opacity-60"
+                      className="flex-grow px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white uppercase placeholder:normal-case focus:outline-none focus:border-primary disabled:opacity-60"
                     />
                     {appliedCoupon ? (
                       <button

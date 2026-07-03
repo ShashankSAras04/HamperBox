@@ -282,7 +282,7 @@ export const GiftsManage = () => {
         {/* Toolbar Filters Panel */}
         <div className="flex flex-col md:flex-row gap-4 items-center bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 p-4 rounded-2xl shadow-sm">
           {/* Search */}
-          <div className="relative w-full md:max-w-xs flex items-center border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-955 px-3 py-2 rounded-xl">
+          <div className="relative w-full md:max-w-xs flex items-center border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded-xl">
             <Search className="w-4.5 h-4.5 text-slate-400 mr-2 flex-shrink-0" />
             <input
               type="text"
@@ -439,7 +439,7 @@ export const GiftsManage = () => {
         {/* Modal: CREATE/EDIT GIFT */}
         {modalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
-            <div className="fixed inset-0 bg-slate-955/40 backdrop-blur-sm" onClick={handleCloseModal} />
+            <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={handleCloseModal} />
             
             <div className="relative w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-3xl p-6 z-10 glass">
               <div className="flex justify-between items-center mb-6">
@@ -460,7 +460,7 @@ export const GiftsManage = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                       placeholder="E.g. Royal Gold Basket"
                     />
                   </div>
@@ -472,7 +472,7 @@ export const GiftsManage = () => {
                       name="price"
                       value={formData.price}
                       onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                       placeholder="3500.00"
                     />
                   </div>
@@ -485,7 +485,7 @@ export const GiftsManage = () => {
                       name="category_id"
                       value={formData.category_id}
                       onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                     >
                       <option value="" disabled>Select category</option>
                       {categories.map((c) => (
@@ -500,7 +500,7 @@ export const GiftsManage = () => {
                       name="status"
                       value={formData.status}
                       onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                     >
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
@@ -515,7 +515,7 @@ export const GiftsManage = () => {
                       name="type"
                       value={formData.type}
                       onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                     >
                       <option value="hamper">Gift Hamper (Bundle)</option>
                       <option value="item">Single Gift Item</option>
@@ -544,7 +544,7 @@ export const GiftsManage = () => {
                     value={formData.description}
                     onChange={handleInputChange}
                     rows={3}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                     placeholder="Provide a luxurious description..."
                   />
                 </div>
@@ -621,7 +621,7 @@ export const GiftsManage = () => {
                     <input
                       type="text"
                       placeholder="Paste image URL..."
-                      className="flex-grow px-3.5 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
+                      className="flex-grow px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs dark:text-white focus:outline-none focus:border-primary"
                       value={formData.image}
                       onChange={handleInputChange}
                       name="image"
@@ -665,7 +665,7 @@ export const GiftsManage = () => {
 
                 {/* Hamper Contents checklist */}
                 {formData.type === 'hamper' && (
-                  <div className="space-y-2 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-955/20">
+                  <div className="space-y-2 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-900/20">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block font-semibold text-slate-700 dark:text-slate-350">Include Gift Items in this Hamper</label>
                     
                     {standaloneItems.length > 0 ? (
@@ -734,7 +734,7 @@ export const GiftsManage = () => {
                   <button
                     type="button"
                     onClick={handleCloseModal}
-                    className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-350 hover:bg-slate-55"
+                    className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-350 hover:bg-slate-100"
                   >
                     Cancel
                   </button>

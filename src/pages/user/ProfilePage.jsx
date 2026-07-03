@@ -352,7 +352,7 @@ export const ProfilePage = () => {
                     {addresses.map((addr) => (
                       <div
                         key={addr.address_id}
-                        className="p-4 bg-slate-55/40 dark:bg-slate-950 border border-slate-200/40 dark:border-slate-850 rounded-2xl flex justify-between items-start"
+                        className="p-4 bg-slate-100/40 dark:bg-slate-950 border border-slate-200/40 dark:border-slate-850 rounded-2xl flex justify-between items-start"
                       >
                         <div className="text-xs text-slate-650 dark:text-slate-400 space-y-1">
                           <p className="font-bold text-slate-850 dark:text-white">{addr.recipient_name}</p>

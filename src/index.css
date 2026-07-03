@@ -34,21 +34,18 @@ body, header, main, footer, aside, nav, div, section, article, h1, h2, h3, h4, h
 
   /* Universal inputs visibility reset for light/dark themes */
   input, select, textarea {
-    @apply text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800;
+    color: #0f172a;
+    border-color: #e2e8f0;
   }
 
   input::placeholder, textarea::placeholder {
-    @apply text-slate-400 dark:text-slate-500;
+    @apply text-slate-400;
   }
 
   /* Fix option elements in dark mode (dropdown menus) */
   select option {
-    @apply bg-white text-slate-900;
-  }
-
-  .dark select option {
-    background-color: #0f172a;
-    color: #e2e8f0;
+    background-color: #ffffff;
+    color: #0f172a;
   }
 
   /* Fix table text visibility in dark mode */
@@ -57,15 +54,33 @@ body, header, main, footer, aside, nav, div, section, article, h1, h2, h3, h4, h
     color: inherit;
   }
 
-  /* Fix white-background containers in dark mode */
-  .dark .bg-white {
-    --tw-bg-opacity: 1;
-  }
-
   /* Ensure pagination and filter buttons have visible text in dark mode */
   .dark button {
     color: inherit;
   }
+}
+
+/*
+ * CRITICAL: Dark mode input text fix
+ * Must be outside @layer to have highest specificity.
+ * This ensures typed text is ALWAYS visible in dark mode,
+ * regardless of bg-transparent, bg-white, bg-slate-50, etc.
+ */
+.dark input,
+.dark select,
+.dark textarea {
+  color: #f1f5f9 !important;
+  border-color: #1e293b;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+.dark select option {
+  background-color: #0f172a;
+  color: #e2e8f0;
 }
 
 /* Glassmorphism utilities */

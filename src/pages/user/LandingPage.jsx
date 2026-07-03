@@ -246,7 +246,7 @@ export const LandingPage = () => {
       )}
 
       {/* Why Choose Section */}
-      <section className="bg-slate-100/50 dark:bg-slate-955/40 border-y border-slate-200/40 dark:border-slate-900/60 py-24 transition-colors duration-300">
+      <section className="bg-slate-100/50 dark:bg-slate-900/40 border-y border-slate-200/40 dark:border-slate-900/60 py-24 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold font-serif text-slate-900 dark:text-white">

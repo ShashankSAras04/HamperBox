@@ -930,8 +930,12 @@ export const api = {
   // ==========================================
   getUpiIds: async () => {
     if (!IS_MOCK_MODE) {
-      const { data, error } = await supabase.from('upi_ids').select('*').order('created_at', { ascending: true });
-      if (!error) return data;
+      try {
+        const { data, error } = await supabase.from('upi_ids').select('*').order('created_at', { ascending: true });
+        if (!error && data) return data;
+      } catch (e) {
+        console.warn('upi_ids table not found, falling back to local storage:', e.message);
+      }
     }
     let upiIds = getItems('hb_upi_ids');
     if (!upiIds || upiIds.length === 0) {
@@ -943,9 +947,18 @@ export const api = {
 
   createUpiId: async (upiData) => {
     if (!IS_MOCK_MODE) {
-      const { data, error } = await supabase.from('upi_ids').insert([upiData]).select();
-      if (error) throw error;
-      return data[0];
+      try {
+        const { data, error } = await supabase.from('upi_ids').insert([upiData]).select();
+        if (!error && data) return data[0];
+        // If table doesn't exist, fall through to local storage
+        if (error && !error.message?.includes('schema')) throw error;
+      } catch (e) {
+        if (e.message?.includes('schema')) {
+          console.warn('upi_ids table not found, using local storage');
+        } else {
+          throw e;
+        }
+      }
     }
     const upiIds = getItems('hb_upi_ids') || [];
     if (upiIds.find(u => u.upi_address.toLowerCase() === upiData.upi_address.toLowerCase())) {
@@ -967,13 +980,21 @@ export const api = {
 
   updateUpiId: async (id, upiData) => {
     if (!IS_MOCK_MODE) {
-      // If setting as default, clear others first
-      if (upiData.is_default) {
-        await supabase.from('upi_ids').update({ is_default: false }).neq('upi_id', id);
+      try {
+        // If setting as default, clear others first
+        if (upiData.is_default) {
+          await supabase.from('upi_ids').update({ is_default: false }).neq('upi_id', id);
+        }
+        const { data, error } = await supabase.from('upi_ids').update(upiData).eq('upi_id', id).select();
+        if (!error && data) return data[0];
+        if (error && !error.message?.includes('schema')) throw error;
+      } catch (e) {
+        if (e.message?.includes('schema')) {
+          console.warn('upi_ids table not found, using local storage');
+        } else {
+          throw e;
+        }
       }
-      const { data, error } = await supabase.from('upi_ids').update(upiData).eq('upi_id', id).select();
-      if (error) throw error;
-      return data[0];
     }
     const upiIds = getItems('hb_upi_ids') || [];
     if (upiData.is_default) {
@@ -990,9 +1011,17 @@ export const api = {
 
   deleteUpiId: async (id) => {
     if (!IS_MOCK_MODE) {
-      const { error } = await supabase.from('upi_ids').delete().eq('upi_id', id);
-      if (error) throw error;
-      return true;
+      try {
+        const { error } = await supabase.from('upi_ids').delete().eq('upi_id', id);
+        if (!error) return true;
+        if (error && !error.message?.includes('schema')) throw error;
+      } catch (e) {
+        if (e.message?.includes('schema')) {
+          console.warn('upi_ids table not found, using local storage');
+        } else {
+          throw e;
+        }
+      }
     }
     let upiIds = getItems('hb_upi_ids') || [];
     upiIds = upiIds.filter(u => u.upi_id !== id);
@@ -1005,13 +1034,19 @@ export const api = {
   // ==========================================
   updateOrderUpi: async (orderId, upiAddress) => {
     if (!IS_MOCK_MODE) {
-      // Check if UPI is locked
-      const { data: orderCheck } = await supabase.from('gift_orders').select('upi_locked').eq('order_id', orderId).single();
-      if (orderCheck?.upi_locked) throw new Error('UPI is locked for this order');
-      
-      const { data, error } = await supabase.from('gift_orders').update({ selected_upi: upiAddress }).eq('order_id', orderId).select();
-      if (error) throw error;
-      return data[0];
+      try {
+        // Check if UPI is locked
+        const { data: orderCheck } = await supabase.from('gift_orders').select('upi_locked').eq('order_id', orderId).single();
+        if (orderCheck?.upi_locked) throw new Error('UPI is locked for this order');
+        
+        const { data, error } = await supabase.from('gift_orders').update({ selected_upi: upiAddress }).eq('order_id', orderId).select();
+        if (!error && data) return data[0];
+        // If columns don't exist yet, fall through to local storage
+        if (error && !error.message?.includes('schema') && !error.message?.includes('column')) throw error;
+      } catch (e) {
+        if (e.message === 'UPI is locked for this order') throw e;
+        console.warn('Order UPI update fell back to local storage:', e.message);
+      }
     }
     const orders = getItems('hb_orders');
     const idx = orders.findIndex(o => o.order_id === orderId);
@@ -1027,11 +1062,16 @@ export const api = {
 
   lockOrderUpi: async (orderId, upiAddress) => {
     if (!IS_MOCK_MODE) {
-      const { data, error } = await supabase.from('gift_orders')
-        .update({ selected_upi: upiAddress, upi_locked: true })
-        .eq('order_id', orderId).select();
-      if (error) throw error;
-      return data[0];
+      try {
+        const { data, error } = await supabase.from('gift_orders')
+          .update({ selected_upi: upiAddress, upi_locked: true })
+          .eq('order_id', orderId).select();
+        if (!error && data) return data[0];
+        // If columns don't exist yet, fall through to local storage
+        if (error && !error.message?.includes('schema') && !error.message?.includes('column')) throw error;
+      } catch (e) {
+        console.warn('Order UPI lock fell back to local storage:', e.message);
+      }
     }
     const orders = getItems('hb_orders');
     const idx = orders.findIndex(o => o.order_id === orderId);
