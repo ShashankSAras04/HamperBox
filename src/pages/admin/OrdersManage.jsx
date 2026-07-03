@@ -213,38 +213,33 @@ Once the payment is done, please reply to this message with a screenshot of the 
     const logoBase64 = await getLogoBase64();
     
     const htmlContent = `
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Invoice - ${orderRef}</title>
+<div style="font-family: 'Outfit', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; padding: 25px; margin: 0; line-height: 1.4; background: #fff; position: relative; width: 190mm; box-sizing: border-box; min-height: 270mm;">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
-    body { font-family: 'Outfit', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; padding: 40px; margin: 0; line-height: 1.5; background: #fff; position: relative; }
-    .watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.04; z-index: 0; pointer-events: none; }
-    .watermark img { width: 320px; height: 320px; object-fit: contain; }
+    .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); opacity: 0.03; z-index: 0; pointer-events: none; }
+    .watermark img { width: 300px; height: 300px; object-fit: contain; }
     .content { position: relative; z-index: 1; }
-    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #8B5CF6; padding-bottom: 20px; margin-bottom: 30px; }
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #8B5CF6; padding-bottom: 15px; margin-bottom: 25px; }
     .header-left { display: flex; align-items: center; gap: 12px; }
-    .header-logo { width: 48px; height: 48px; object-fit: contain; border-radius: 10px; }
-    .logo { font-size: 28px; font-weight: 800; color: #8B5CF6; letter-spacing: -0.05em; font-family: 'Georgia', serif; }
-    .title { font-size: 20px; font-weight: bold; color: #334155; }
-    .details { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-    .details h3 { font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; letter-spacing: 0.05em; }
-    .details p { margin: 4px 0; font-size: 13px; color: #334155; }
-    .table { width: 100%; border-collapse: collapse; margin-bottom: 45px; }
-    .table th { background: #f8fafc; border-bottom: 2px solid #cbd5e1; padding: 12px 16px; font-size: 11px; text-transform: uppercase; text-align: left; font-weight: bold; color: #475569; }
-    .table td { border-bottom: 1px solid #e2e8f0; padding: 12px 16px; font-size: 13px; color: #334155; }
-    .total-box { float: right; width: 320px; margin-top: 10px; }
-    .total-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; color: #475569; }
-    .total-row.grand { border-top: 2px solid #8B5CF6; padding-top: 10px; font-size: 16px; font-weight: bold; color: #8B5CF6; }
-    .badge { display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+    .header-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 8px; }
+    .logo { font-size: 26px; font-weight: 800; color: #8B5CF6; letter-spacing: -0.05em; font-family: 'Georgia', serif; }
+    .title { font-size: 18px; font-weight: bold; color: #334155; }
+    .details { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 25px; }
+    .details h3 { font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; letter-spacing: 0.05em; }
+    .details p { margin: 3px 0; font-size: 13px; color: #334155; }
+    .table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+    .table th { background: #f8fafc; border-bottom: 2px solid #cbd5e1; padding: 10px 14px; font-size: 11px; text-transform: uppercase; text-align: left; font-weight: bold; color: #475569; }
+    .table td { border-bottom: 1px solid #e2e8f0; padding: 10px 14px; font-size: 13px; color: #334155; }
+    .total-box { float: right; width: 280px; margin-top: 5px; }
+    .total-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; color: #475569; }
+    .total-row.grand { border-top: 2px solid #8B5CF6; padding-top: 8px; font-size: 15px; font-weight: bold; color: #8B5CF6; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 9999px; font-size: 9px; font-weight: bold; text-transform: uppercase; }
     .badge.paid { background: #dcfce7; color: #166534; }
     .badge.unpaid { background: #fee2e2; color: #991b1b; }
     .badge.cancelled { background: #fee2e2; color: #991b1b; }
-    .footer { clear: both; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 80px; font-size: 11px; color: #94a3b8; }
+    .footer { clear: both; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 50px; font-size: 11px; color: #94a3b8; }
   </style>
-</head>
-<body>
+
   <!-- Watermark -->
   ${logoBase64 ? `<div class="watermark"><img src="${logoBase64}" alt="Watermark" /></div>` : ''}
   
@@ -254,12 +249,12 @@ Once the payment is done, please reply to this message with a screenshot of the 
       ${logoBase64 ? `<img src="${logoBase64}" alt="HampBox Logo" class="header-logo" />` : ''}
       <div>
         <div class="logo">HampBox</div>
-        <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b; font-weight: 550;">Premium Gifting Platform</p>
+        <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b; font-weight: 550;">Premium Gifting Platform</p>
       </div>
     </div>
     <div style="text-align: right;">
       <div class="title">OFFICIAL INVOICE</div>
-      <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b;">Ref: ${orderRef}</p>
+      <p style="margin: 2px 0 0 0; font-size: 11px; color: #64748b;">Ref: ${orderRef}</p>
     </div>
   </div>
 
@@ -322,7 +317,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
       <span>${isPaid ? 'Total Paid:' : 'Total Due:'}</span>
       <span>₹${parseFloat(order.total_amount).toLocaleString('en-IN')}</span>
     </div>
-    ${!isPaid ? `<div style="text-align: center; margin-top: 12px;"><span class="badge unpaid" style="font-size: 12px; padding: 6px 16px;">⚠ NOT PAID</span></div>` : ''}
+    ${!isPaid ? `<div style="text-align: center; margin-top: 10px;"><span class="badge unpaid" style="font-size: 11px; padding: 5px 12px;">⚠ NOT PAID</span></div>` : ''}
     ` : `
     <div class="total-row grand" style="font-size: 11px; text-transform: none; color: #8B5CF6; border-top: 2px solid #8B5CF6; padding-top: 10px;">
       <span>Once ordered, the HampBox team will contact you with order details.</span>
@@ -335,8 +330,7 @@ Once the payment is done, please reply to this message with a screenshot of the 
     <p>&copy; ${new Date().getFullYear()} HampBox Gifting Pvt. Ltd. All rights reserved.</p>
   </div>
   </div>
-</body>
-</html>
+</div>
     `;
 
     try {
@@ -345,7 +339,8 @@ Once the payment is done, please reply to this message with a screenshot of the 
         filename: `Invoice-${orderRef.replace('#', '')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
 
       const exporter = html2pdf.default || html2pdf;
