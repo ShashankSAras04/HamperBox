@@ -1193,22 +1193,48 @@ export const api = {
     if (!cleanRef) return [];
 
     if (!IS_MOCK_MODE) {
-      // Search using ILIKE on order_id prefix
-      const { data, error } = await supabase
-        .from('gift_orders')
-        .select(`
-          *,
-          gifts(gift_name, gift_price, gift_image),
-          addresses(*),
-          users(full_name, email, phone_number)
-        `)
-        .ilike('order_id', `${cleanRef}%`)
-        .order('created_at', { ascending: false });
-      
-      if (error) throw error;
-      return data || [];
-    } else {
-      const orders = getItems('hb_orders');
+      try {
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cleanRef);
+        
+        if (isUuid) {
+          const { data, error } = await supabase
+            .from('gift_orders')
+            .select(`
+              *,
+              gifts(gift_name, gift_price, gift_image),
+              addresses(*),
+              users(full_name, email, phone_number)
+            `)
+            .eq('order_id', cleanRef);
+          
+          if (error) throw error;
+          return data || [];
+        } else {
+          // If it is a partial reference (like cce94d9b), fetch and filter locally
+          const { data, error } = await supabase
+            .from('gift_orders')
+            .select(`
+              *,
+              gifts(gift_name, gift_price, gift_image),
+              addresses(*),
+              users(full_name, email, phone_number)
+            `)
+            .order('created_at', { ascending: false });
+          
+          if (error) throw error;
+          return (data || []).filter(o => o.order_id.toLowerCase().startsWith(cleanRef));
+        }
+      } catch (e) {
+        if (isSchemaError(e)) {
+          console.warn('getOrdersByRef fell back to local storage:', e.message || e);
+        } else {
+          throw e;
+        }
+      }
+    }
+
+    // Fallback/Mock Mode
+    const orders = getItems('hb_orders');
       const gifts = getItems('hb_gifts');
       const addresses = getItems('hb_addresses');
       const users = getItems('hb_users');
@@ -1226,11 +1252,8 @@ export const api = {
         };
       });
 
-      const filtered = detailedOrders.filter(o => 
-        o.order_id.toLowerCase().startsWith(cleanRef)
-      );
+      const filtered = detailedOrders.filter(o => o.order_id.toLowerCase().startsWith(cleanRef));
       return filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    }
-  }
+  },
 };
 
