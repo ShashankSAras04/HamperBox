@@ -5,7 +5,14 @@ const IS_MOCK_MODE = !import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_
 const isSchemaError = (err) => {
   if (!err) return false;
   const msg = (err.message || err.toString() || JSON.stringify(err) || '').toLowerCase();
-  return msg.includes('relation') && msg.includes('does not exist');
+  const code = (err.code || '').toLowerCase();
+  return (
+    (msg.includes('relation') && msg.includes('does not exist')) ||
+    msg.includes('schema cache') ||
+    msg.includes('could not find the table') ||
+    code === '42p01' ||
+    code === 'pgrst205'
+  );
 };
 
 // Helper to load seed data into LocalStorage if not present
